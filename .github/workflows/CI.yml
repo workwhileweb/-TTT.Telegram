@@ -43,8 +43,9 @@ jobs:
 
     - name: Run Tests
       run: |
-        MSBuild -p:Configuration=Debug -p:CI=true src/TgSharp.sln
+        msbuild -p:Configuration=Debug -p:CI=true src/TgSharp.sln
 
+        brew install nss # to install certutil
         certutil -decode encodedSession.dat src/TgSharp.Tests.NUnit/bin/Debug/session.dat
         cp app.config src/TgSharp.Tests.NUnit/bin/Debug/TgSharp.Tests.NUnit.dll.config
 
