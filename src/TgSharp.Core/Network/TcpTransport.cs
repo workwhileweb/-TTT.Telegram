@@ -20,15 +20,14 @@ namespace TgSharp.Core.Network
         {
             if (handler == null)
             {
-                var ipAddress = IPAddress.Parse(address);
-                var endpoint = new IPEndPoint(ipAddress, port);
-
-                tcpClient = new TcpClient(ipAddress.AddressFamily);
-
                 try {
+                    var ipAddress = IPAddress.Parse(address);
+                    var endpoint = new IPEndPoint(ipAddress, port);
+
+                    tcpClient = new TcpClient(ipAddress.AddressFamily);
                     tcpClient.Connect (endpoint);
                 } catch (Exception ex) {
-                    throw new Exception ($"Problem when trying to connect to {endpoint}; either there's no internet connection or the IP address version is not compatible (if the latter, consider using DataCenterIPVersion enum)",
+                    throw new Exception ($"Problem when trying to connect to {address}; either there's no internet connection or the IP address version is not compatible (if the latter, consider using DataCenterIPVersion enum)",
                                          ex);
                 }
             }
