@@ -93,6 +93,11 @@ namespace TgSharp.Core.Network
                     plaintextWriter.Write(packet.Length);
                     plaintextWriter.Write(packet);
 
+#if VERBOSE_BUILD
+                    Console.WriteLine($"Plain Text Packet for request {request.GetType().Name}:");
+                    Console.WriteLine(BitConverter.ToString(plaintextPacket.GetBuffer()));
+#endif
+
                     msgKey = Helpers.CalcMsgKey(plaintextPacket.GetBuffer());
                     ciphertext = AES.EncryptAES(Helpers.CalcKey(session.AuthKey.Data, msgKey, true), plaintextPacket.GetBuffer());
                 }
@@ -105,6 +110,11 @@ namespace TgSharp.Core.Network
                     writer.Write(session.AuthKey.Id);
                     writer.Write(msgKey);
                     writer.Write(ciphertext);
+
+#if VERBOSE_BUILD
+                    Console.WriteLine($"Cipher Text Packet for request {request.GetType().Name}:");
+                    Console.WriteLine(BitConverter.ToString(ciphertextPacket.GetBuffer()));
+#endif
 
                     await transport.Send(ciphertextPacket.GetBuffer(), token).ConfigureAwait(false);
                 }
