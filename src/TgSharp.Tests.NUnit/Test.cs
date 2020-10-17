@@ -19,7 +19,7 @@ namespace TgSharp.Tests
         public void DummyWait()
         {
             // if we don't wait a bit between tests, they could hang...
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1.0));
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5.0));
         }
 
         [Test]
