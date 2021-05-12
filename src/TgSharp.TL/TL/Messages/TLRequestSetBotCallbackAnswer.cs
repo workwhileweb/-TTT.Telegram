@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Messages
 {
     [TLObject(-712043766)]
-    public class TLRequestSetBotCallbackAnswer : TLMethod
+    public class TLRequestSetBotCallbackAnswer : TLMethod<bool>
     {
         public override int Constructor
         {
@@ -26,11 +26,15 @@ namespace TgSharp.TL.Messages
         public string Message { get; set; }
         public string Url { get; set; }
         public int CacheTime { get; set; }
-        public bool Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Alert ? (Flags | 2) : (Flags & ~2);
+Flags = Message != null ? (Flags | 1) : (Flags & ~1);
+Flags = Url != null ? (Flags | 4) : (Flags & ~4);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -63,7 +67,7 @@ namespace TgSharp.TL.Messages
             bw.Write(CacheTime);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
         }

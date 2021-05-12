@@ -9,18 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Contacts
 {
-    [TLObject(471043349)]
+    [TLObject(182326673)]
     public class TLBlocked : TLAbsBlocked
     {
         public override int Constructor
         {
             get
             {
-                return 471043349;
+                return 182326673;
             }
         }
 
-        public TLVector<TLContactBlocked> Blocked { get; set; }
+        public TLVector<TLPeerBlocked> Blocked { get; set; }
+        public TLVector<TLAbsChat> Chats { get; set; }
         public TLVector<TLAbsUser> Users { get; set; }
 
         public void ComputeFlags()
@@ -30,7 +31,8 @@ namespace TgSharp.TL.Contacts
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Blocked = (TLVector<TLContactBlocked>)ObjectUtils.DeserializeVector<TLContactBlocked>(br);
+            Blocked = (TLVector<TLPeerBlocked>)ObjectUtils.DeserializeVector<TLPeerBlocked>(br);
+            Chats = (TLVector<TLAbsChat>)ObjectUtils.DeserializeVector<TLAbsChat>(br);
             Users = (TLVector<TLAbsUser>)ObjectUtils.DeserializeVector<TLAbsUser>(br);
         }
 
@@ -38,6 +40,7 @@ namespace TgSharp.TL.Contacts
         {
             bw.Write(Constructor);
             ObjectUtils.SerializeObject(Blocked, bw);
+            ObjectUtils.SerializeObject(Chats, bw);
             ObjectUtils.SerializeObject(Users, bw);
         }
     }

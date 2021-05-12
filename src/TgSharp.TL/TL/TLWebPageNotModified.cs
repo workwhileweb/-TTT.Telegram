@@ -9,33 +9,43 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-2054908813)]
+    [TLObject(1930545681)]
     public class TLWebPageNotModified : TLAbsWebPage
     {
         public override int Constructor
         {
             get
             {
-                return -2054908813;
+                return 1930545681;
             }
         }
 
-        // no fields
+        public int Flags { get; set; }
+        public int? CachedPageViews { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = CachedPageViews != null ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            // do nothing
+            Flags = br.ReadInt32();
+            if ((Flags & 1) != 0)
+                CachedPageViews = br.ReadInt32();
+            else
+                CachedPageViews = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            // do nothing
+            bw.Write(Flags);
+            if ((Flags & 1) != 0)
+                bw.Write(CachedPageViews.Value);
         }
     }
 }

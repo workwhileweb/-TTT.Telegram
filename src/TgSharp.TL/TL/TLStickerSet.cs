@@ -37,7 +37,15 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Archived ? (Flags | 2) : (Flags & ~2);
+Flags = Official ? (Flags | 4) : (Flags & ~4);
+Flags = Masks ? (Flags | 8) : (Flags & ~8);
+Flags = Animated ? (Flags | 32) : (Flags & ~32);
+Flags = InstalledDate != null ? (Flags | 1) : (Flags & ~1);
+Flags = Thumb != null ? (Flags | 16) : (Flags & ~16);
+Flags = ThumbDcId != null ? (Flags | 16) : (Flags & ~16);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

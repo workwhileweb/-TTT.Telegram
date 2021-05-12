@@ -22,6 +22,7 @@ namespace TgSharp.TL
 
         public int Flags { get; set; }
         public bool P2pAllowed { get; set; }
+        public bool Video { get; set; }
         public long Id { get; set; }
         public long AccessHash { get; set; }
         public int Date { get; set; }
@@ -30,18 +31,22 @@ namespace TgSharp.TL
         public byte[] GAOrB { get; set; }
         public long KeyFingerprint { get; set; }
         public TLPhoneCallProtocol Protocol { get; set; }
-        public TLVector<TLPhoneConnection> Connections { get; set; }
+        public TLVector<TLAbsPhoneConnection> Connections { get; set; }
         public int StartDate { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = P2pAllowed ? (Flags | 32) : (Flags & ~32);
+Flags = Video ? (Flags | 64) : (Flags & ~64);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
             Flags = br.ReadInt32();
             P2pAllowed = (Flags & 32) != 0;
+            Video = (Flags & 64) != 0;
             Id = br.ReadInt64();
             AccessHash = br.ReadInt64();
             Date = br.ReadInt32();
@@ -50,7 +55,7 @@ namespace TgSharp.TL
             GAOrB = BytesUtil.Deserialize(br);
             KeyFingerprint = br.ReadInt64();
             Protocol = (TLPhoneCallProtocol)ObjectUtils.DeserializeObject(br);
-            Connections = (TLVector<TLPhoneConnection>)ObjectUtils.DeserializeVector<TLPhoneConnection>(br);
+            Connections = (TLVector<TLAbsPhoneConnection>)ObjectUtils.DeserializeVector<TLAbsPhoneConnection>(br);
             StartDate = br.ReadInt32();
         }
 

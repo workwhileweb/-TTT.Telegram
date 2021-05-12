@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL
 {
     [TLObject(-1655957568)]
-    public class TLPhoneConnection : TLObject
+    public class TLPhoneConnection : TLAbsPhoneConnection
     {
         public override int Constructor
         {

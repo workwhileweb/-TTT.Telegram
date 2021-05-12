@@ -174,7 +174,7 @@ namespace TgSharp.Generator
                     temp = temp.Replace("/* PARAMS */", fields);
                     #endregion
                     #region ComputeFlagFunc
-                    if (!c.Params.Any(x => x.Name == "Flags")) temp = temp.Replace("/* COMPUTE */", "// do nothing");
+                    if (!c.Params.Any(x => x.Name.ToLower() == "flags")) temp = temp.Replace("/* COMPUTE */", "// do nothing");
                     else
                     {
                         var compute = "Flags = 0;" + Environment.NewLine;
@@ -260,7 +260,7 @@ namespace TgSharp.Generator
                     if (nspace.EndsWith("."))
                         nspace = nspace.Remove(nspace.Length - 1, 1);
                     string temp = methodStyle.Replace("/* NAMESPACE */", rootNamespace + "." + nspace);
-                    temp = temp.Replace("/* PARENT */", "TLMethod");
+                    temp = temp.Replace("/* PARENT */", $"TLMethod<{CheckForFlagBase(c.Type, GetTypeName(c.Type))}>");
                     temp = temp.Replace("/*Constructor*/", c.Id.ToString());
                     temp = temp.Replace("/* NAME */", GetNameofClass(c.Method, false, true));
                     #endregion
@@ -281,11 +281,11 @@ namespace TgSharp.Generator
                     } else {
                         first = false;
                     }
-                    fields += $"public {CheckForFlagBase(c.Type, GetTypeName(c.Type))} Response" + " { get; set; }";
+                    //fields += $"public {CheckForFlagBase(c.Type, GetTypeName(c.Type))} Response" + " { get; set; }";
                     temp = temp.Replace("/* PARAMS */", fields);
                     #endregion
                     #region ComputeFlagFunc
-                    if (!c.Params.Any(x => x.Name == "Flags")) temp = temp.Replace("/* COMPUTE */", "// do nothing");
+                    if (!c.Params.Any(x => x.Name.ToLower() == "flags")) temp = temp.Replace("/* COMPUTE */", "// do nothing");
                     else
                     {
                         var compute = "Flags = 0;" + Environment.NewLine;

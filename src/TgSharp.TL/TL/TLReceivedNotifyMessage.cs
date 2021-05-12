@@ -25,7 +25,8 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+
         }
 
         public override void DeserializeBody(BinaryReader br)

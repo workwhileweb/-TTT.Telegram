@@ -29,7 +29,10 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = RequestWriteAccess ? (Flags | 1) : (Flags & ~1);
+Flags = FwdText != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

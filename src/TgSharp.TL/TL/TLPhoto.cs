@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-797637467)]
+    [TLObject(-82216347)]
     public class TLPhoto : TLAbsPhoto
     {
         public override int Constructor
         {
             get
             {
-                return -797637467;
+                return -82216347;
             }
         }
 
@@ -27,11 +27,15 @@ namespace TgSharp.TL
         public byte[] FileReference { get; set; }
         public int Date { get; set; }
         public TLVector<TLAbsPhotoSize> Sizes { get; set; }
+        public TLVector<TLVideoSize> VideoSizes { get; set; }
         public int DcId { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = HasStickers ? (Flags | 1) : (Flags & ~1);
+Flags = VideoSizes != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -43,6 +47,11 @@ namespace TgSharp.TL
             FileReference = BytesUtil.Deserialize(br);
             Date = br.ReadInt32();
             Sizes = (TLVector<TLAbsPhotoSize>)ObjectUtils.DeserializeVector<TLAbsPhotoSize>(br);
+            if ((Flags & 2) != 0)
+                VideoSizes = (TLVector<TLVideoSize>)ObjectUtils.DeserializeVector<TLVideoSize>(br);
+            else
+                VideoSizes = null;
+
             DcId = br.ReadInt32();
         }
 
@@ -55,6 +64,8 @@ namespace TgSharp.TL
             BytesUtil.Serialize(FileReference, bw);
             bw.Write(Date);
             ObjectUtils.SerializeObject(Sizes, bw);
+            if ((Flags & 2) != 0)
+                ObjectUtils.SerializeObject(VideoSizes, bw);
             bw.Write(DcId);
         }
     }

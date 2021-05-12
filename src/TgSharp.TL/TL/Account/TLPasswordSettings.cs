@@ -26,7 +26,10 @@ namespace TgSharp.TL.Account
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Email != null ? (Flags | 1) : (Flags & ~1);
+Flags = SecureSettings != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

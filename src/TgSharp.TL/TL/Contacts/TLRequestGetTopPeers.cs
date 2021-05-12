@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Contacts
 {
     [TLObject(-728224331)]
-    public class TLRequestGetTopPeers : TLMethod
+    public class TLRequestGetTopPeers : TLMethod<Contacts.TLAbsTopPeers>
     {
         public override int Constructor
         {
@@ -32,11 +32,20 @@ namespace TgSharp.TL.Contacts
         public int Offset { get; set; }
         public int Limit { get; set; }
         public int Hash { get; set; }
-        public Contacts.TLAbsTopPeers Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Correspondents ? (Flags | 1) : (Flags & ~1);
+Flags = BotsPm ? (Flags | 2) : (Flags & ~2);
+Flags = BotsInline ? (Flags | 4) : (Flags & ~4);
+Flags = PhoneCalls ? (Flags | 8) : (Flags & ~8);
+Flags = ForwardUsers ? (Flags | 16) : (Flags & ~16);
+Flags = ForwardChats ? (Flags | 32) : (Flags & ~32);
+Flags = Groups ? (Flags | 1024) : (Flags & ~1024);
+Flags = Channels ? (Flags | 32768) : (Flags & ~32768);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -64,7 +73,7 @@ namespace TgSharp.TL.Contacts
             bw.Write(Hash);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (Contacts.TLAbsTopPeers)ObjectUtils.DeserializeObject(br);
         }

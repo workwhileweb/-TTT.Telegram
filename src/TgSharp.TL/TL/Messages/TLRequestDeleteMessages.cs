@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Messages
 {
     [TLObject(-443640366)]
-    public class TLRequestDeleteMessages : TLMethod
+    public class TLRequestDeleteMessages : TLMethod<Messages.TLAffectedMessages>
     {
         public override int Constructor
         {
@@ -23,11 +23,13 @@ namespace TgSharp.TL.Messages
         public int Flags { get; set; }
         public bool Revoke { get; set; }
         public TLVector<int> Id { get; set; }
-        public Messages.TLAffectedMessages Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Revoke ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -44,7 +46,7 @@ namespace TgSharp.TL.Messages
             ObjectUtils.SerializeObject(Id, bw);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (Messages.TLAffectedMessages)ObjectUtils.DeserializeObject(br);
         }

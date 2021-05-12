@@ -32,7 +32,15 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = FullWidth ? (Flags | 1) : (Flags & ~1);
+Flags = AllowScrolling ? (Flags | 8) : (Flags & ~8);
+Flags = Url != null ? (Flags | 2) : (Flags & ~2);
+Flags = Html != null ? (Flags | 4) : (Flags & ~4);
+Flags = PosterPhotoId != null ? (Flags | 16) : (Flags & ~16);
+Flags = W != null ? (Flags | 32) : (Flags & ~32);
+Flags = H != null ? (Flags | 32) : (Flags & ~32);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

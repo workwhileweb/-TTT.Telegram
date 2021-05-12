@@ -75,7 +75,24 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = PhonecallsEnabled ? (Flags | 2) : (Flags & ~2);
+Flags = DefaultP2pContacts ? (Flags | 8) : (Flags & ~8);
+Flags = PreloadFeaturedStickers ? (Flags | 16) : (Flags & ~16);
+Flags = IgnorePhoneEntities ? (Flags | 32) : (Flags & ~32);
+Flags = RevokePmInbox ? (Flags | 64) : (Flags & ~64);
+Flags = BlockedMode ? (Flags | 256) : (Flags & ~256);
+Flags = PfsEnabled ? (Flags | 8192) : (Flags & ~8192);
+Flags = TmpSessions != null ? (Flags | 1) : (Flags & ~1);
+Flags = AutoupdateUrlPrefix != null ? (Flags | 128) : (Flags & ~128);
+Flags = GifSearchUsername != null ? (Flags | 512) : (Flags & ~512);
+Flags = VenueSearchUsername != null ? (Flags | 1024) : (Flags & ~1024);
+Flags = ImgSearchUsername != null ? (Flags | 2048) : (Flags & ~2048);
+Flags = StaticMapsProvider != null ? (Flags | 4096) : (Flags & ~4096);
+Flags = SuggestedLangCode != null ? (Flags | 4) : (Flags & ~4);
+Flags = LangPackVersion != null ? (Flags | 4) : (Flags & ~4);
+Flags = BaseLangPackVersion != null ? (Flags | 4) : (Flags & ~4);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

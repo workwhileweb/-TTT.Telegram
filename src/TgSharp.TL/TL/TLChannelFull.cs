@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(763976820)]
+    [TLObject(-253335766)]
     public class TLChannelFull : TLAbsChatFull
     {
         public override int Constructor
         {
             get
             {
-                return 763976820;
+                return -253335766;
             }
         }
 
@@ -25,9 +25,10 @@ namespace TgSharp.TL
         public bool CanSetUsername { get; set; }
         public bool CanSetStickers { get; set; }
         public bool HiddenPrehistory { get; set; }
-        public bool CanViewStats { get; set; }
         public bool CanSetLocation { get; set; }
         public bool HasScheduled { get; set; }
+        public bool CanViewStats { get; set; }
+        public bool Blocked { get; set; }
         public int Id { get; set; }
         public string About { get; set; }
         public int? ParticipantsCount { get; set; }
@@ -52,11 +53,37 @@ namespace TgSharp.TL
         public TLAbsChannelLocation Location { get; set; }
         public int? SlowmodeSeconds { get; set; }
         public int? SlowmodeNextSendDate { get; set; }
+        public int? StatsDc { get; set; }
         public int Pts { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = CanViewParticipants ? (Flags | 8) : (Flags & ~8);
+Flags = CanSetUsername ? (Flags | 64) : (Flags & ~64);
+Flags = CanSetStickers ? (Flags | 128) : (Flags & ~128);
+Flags = HiddenPrehistory ? (Flags | 1024) : (Flags & ~1024);
+Flags = CanSetLocation ? (Flags | 65536) : (Flags & ~65536);
+Flags = HasScheduled ? (Flags | 524288) : (Flags & ~524288);
+Flags = CanViewStats ? (Flags | 1048576) : (Flags & ~1048576);
+Flags = Blocked ? (Flags | 4194304) : (Flags & ~4194304);
+Flags = ParticipantsCount != null ? (Flags | 1) : (Flags & ~1);
+Flags = AdminsCount != null ? (Flags | 2) : (Flags & ~2);
+Flags = KickedCount != null ? (Flags | 4) : (Flags & ~4);
+Flags = BannedCount != null ? (Flags | 4) : (Flags & ~4);
+Flags = OnlineCount != null ? (Flags | 8192) : (Flags & ~8192);
+Flags = MigratedFromChatId != null ? (Flags | 16) : (Flags & ~16);
+Flags = MigratedFromMaxId != null ? (Flags | 16) : (Flags & ~16);
+Flags = PinnedMsgId != null ? (Flags | 32) : (Flags & ~32);
+Flags = Stickerset != null ? (Flags | 256) : (Flags & ~256);
+Flags = AvailableMinId != null ? (Flags | 512) : (Flags & ~512);
+Flags = FolderId != null ? (Flags | 2048) : (Flags & ~2048);
+Flags = LinkedChatId != null ? (Flags | 16384) : (Flags & ~16384);
+Flags = Location != null ? (Flags | 32768) : (Flags & ~32768);
+Flags = SlowmodeSeconds != null ? (Flags | 131072) : (Flags & ~131072);
+Flags = SlowmodeNextSendDate != null ? (Flags | 262144) : (Flags & ~262144);
+Flags = StatsDc != null ? (Flags | 4096) : (Flags & ~4096);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -66,9 +93,10 @@ namespace TgSharp.TL
             CanSetUsername = (Flags & 64) != 0;
             CanSetStickers = (Flags & 128) != 0;
             HiddenPrehistory = (Flags & 1024) != 0;
-            CanViewStats = (Flags & 4096) != 0;
             CanSetLocation = (Flags & 65536) != 0;
             HasScheduled = (Flags & 524288) != 0;
+            CanViewStats = (Flags & 1048576) != 0;
+            Blocked = (Flags & 4194304) != 0;
             Id = br.ReadInt32();
             About = StringUtil.Deserialize(br);
             if ((Flags & 1) != 0)
@@ -153,6 +181,11 @@ namespace TgSharp.TL
             else
                 SlowmodeNextSendDate = null;
 
+            if ((Flags & 4096) != 0)
+                StatsDc = br.ReadInt32();
+            else
+                StatsDc = null;
+
             Pts = br.ReadInt32();
         }
 
@@ -199,6 +232,8 @@ namespace TgSharp.TL
                 bw.Write(SlowmodeSeconds.Value);
             if ((Flags & 262144) != 0)
                 bw.Write(SlowmodeNextSendDate.Value);
+            if ((Flags & 4096) != 0)
+                bw.Write(StatsDc.Value);
             bw.Write(Pts);
         }
     }

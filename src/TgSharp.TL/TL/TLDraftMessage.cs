@@ -29,7 +29,11 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = NoWebpage ? (Flags | 2) : (Flags & ~2);
+Flags = ReplyToMsgId != null ? (Flags | 1) : (Flags & ~1);
+Flags = Entities != null ? (Flags | 8) : (Flags & ~8);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-716006138)]
+    [TLObject(-2032041631)]
     public class TLPoll : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -716006138;
+                return -2032041631;
             }
         }
 
@@ -28,10 +28,19 @@ namespace TgSharp.TL
         public bool Quiz { get; set; }
         public string Question { get; set; }
         public TLVector<TLPollAnswer> Answers { get; set; }
+        public int? ClosePeriod { get; set; }
+        public int? CloseDate { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Closed ? (Flags | 1) : (Flags & ~1);
+Flags = PublicVoters ? (Flags | 2) : (Flags & ~2);
+Flags = MultipleChoice ? (Flags | 4) : (Flags & ~4);
+Flags = Quiz ? (Flags | 8) : (Flags & ~8);
+Flags = ClosePeriod != null ? (Flags | 16) : (Flags & ~16);
+Flags = CloseDate != null ? (Flags | 32) : (Flags & ~32);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -44,6 +53,16 @@ namespace TgSharp.TL
             Quiz = (Flags & 8) != 0;
             Question = StringUtil.Deserialize(br);
             Answers = (TLVector<TLPollAnswer>)ObjectUtils.DeserializeVector<TLPollAnswer>(br);
+            if ((Flags & 16) != 0)
+                ClosePeriod = br.ReadInt32();
+            else
+                ClosePeriod = null;
+
+            if ((Flags & 32) != 0)
+                CloseDate = br.ReadInt32();
+            else
+                CloseDate = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -53,6 +72,10 @@ namespace TgSharp.TL
             bw.Write(Flags);
             StringUtil.Serialize(Question, bw);
             ObjectUtils.SerializeObject(Answers, bw);
+            if ((Flags & 16) != 0)
+                bw.Write(ClosePeriod.Value);
+            if ((Flags & 32) != 0)
+                bw.Write(CloseDate.Value);
         }
     }
 }

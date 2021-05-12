@@ -38,12 +38,26 @@ namespace TgSharp.TL
         public string Author { get; set; }
         public TLAbsDocument Document { get; set; }
         public TLPage CachedPage { get; set; }
-        // manual edit: WebPageAttribute->TLWebPageAttributeTheme
         public TLVector<TLWebPageAttributeTheme> Attributes { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Type != null ? (Flags | 1) : (Flags & ~1);
+Flags = SiteName != null ? (Flags | 2) : (Flags & ~2);
+Flags = Title != null ? (Flags | 4) : (Flags & ~4);
+Flags = Description != null ? (Flags | 8) : (Flags & ~8);
+Flags = Photo != null ? (Flags | 16) : (Flags & ~16);
+Flags = EmbedUrl != null ? (Flags | 32) : (Flags & ~32);
+Flags = EmbedType != null ? (Flags | 32) : (Flags & ~32);
+Flags = EmbedWidth != null ? (Flags | 64) : (Flags & ~64);
+Flags = EmbedHeight != null ? (Flags | 64) : (Flags & ~64);
+Flags = Duration != null ? (Flags | 128) : (Flags & ~128);
+Flags = Author != null ? (Flags | 256) : (Flags & ~256);
+Flags = Document != null ? (Flags | 512) : (Flags & ~512);
+Flags = CachedPage != null ? (Flags | 1024) : (Flags & ~1024);
+Flags = Attributes != null ? (Flags | 4096) : (Flags & ~4096);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -119,8 +133,7 @@ namespace TgSharp.TL
                 CachedPage = null;
 
             if ((Flags & 4096) != 0)
-                // manual edit: WebPageAttribute->TLWebPageAttributeTheme
-                Attributes = (TLVector<TLWebPageAttributeTheme>)ObjectUtils.DeserializeVector<TLWebPageAttributeTheme> (br);
+                Attributes = ObjectUtils.DeserializeVector<TLWebPageAttributeTheme>(br);
             else
                 Attributes = null;
 

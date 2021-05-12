@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Account
 {
     [TLObject(-262453244)]
-    public class TLRequestInitTakeoutSession : TLMethod
+    public class TLRequestInitTakeoutSession : TLMethod<Account.TLTakeout>
     {
         public override int Constructor
         {
@@ -28,11 +28,19 @@ namespace TgSharp.TL.Account
         public bool MessageChannels { get; set; }
         public bool Files { get; set; }
         public int? FileMaxSize { get; set; }
-        public Account.TLTakeout Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Contacts ? (Flags | 1) : (Flags & ~1);
+Flags = MessageUsers ? (Flags | 2) : (Flags & ~2);
+Flags = MessageChats ? (Flags | 4) : (Flags & ~4);
+Flags = MessageMegagroups ? (Flags | 8) : (Flags & ~8);
+Flags = MessageChannels ? (Flags | 16) : (Flags & ~16);
+Flags = Files ? (Flags | 32) : (Flags & ~32);
+Flags = FileMaxSize != null ? (Flags | 32) : (Flags & ~32);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -59,7 +67,7 @@ namespace TgSharp.TL.Account
                 bw.Write(FileMaxSize.Value);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (Account.TLTakeout)ObjectUtils.DeserializeObject(br);
         }

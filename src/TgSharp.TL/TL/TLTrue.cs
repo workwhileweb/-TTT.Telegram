@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1072550713)]
-    public class TLTrue : TLObject
+    [TLObject(889491791)]
+    public class TLUpdateDialogFilters : TLAbsUpdate
     {
         public override int Constructor
         {
             get
             {
-                return 1072550713;
+                return 889491791;
             }
         }
 

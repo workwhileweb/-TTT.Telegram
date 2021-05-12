@@ -9,7 +9,7 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Help
 {
-    public abstract class TLAbsProxyData : TLObject
+    public abstract class TLAbsPromoData : TLObject
     {
     }
 }

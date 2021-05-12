@@ -30,7 +30,11 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Broadcast ? (Flags | 32) : (Flags & ~32);
+Flags = Megagroup ? (Flags | 256) : (Flags & ~256);
+Flags = UntilDate != null ? (Flags | 65536) : (Flags & ~65536);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Account
 {
     [TLObject(473805619)]
-    public class TLRequestUploadTheme : TLMethod
+    public class TLRequestUploadTheme : TLMethod<TLAbsDocument>
     {
         public override int Constructor
         {
@@ -25,11 +25,13 @@ namespace TgSharp.TL.Account
         public TLAbsInputFile Thumb { get; set; }
         public string FileName { get; set; }
         public string MimeType { get; set; }
-        public TLAbsDocument Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Thumb != null ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -56,7 +58,7 @@ namespace TgSharp.TL.Account
             StringUtil.Serialize(MimeType, bw);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (TLAbsDocument)ObjectUtils.DeserializeObject(br);
         }

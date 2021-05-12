@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Phone
 {
     [TLObject(1124046573)]
-    public class TLRequestRequestCall : TLMethod
+    public class TLRequestRequestCall : TLMethod<Phone.TLPhoneCall>
     {
         public override int Constructor
         {
@@ -26,11 +26,13 @@ namespace TgSharp.TL.Phone
         public int RandomId { get; set; }
         public byte[] GAHash { get; set; }
         public TLPhoneCallProtocol Protocol { get; set; }
-        public Phone.TLPhoneCall Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Video ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -53,7 +55,7 @@ namespace TgSharp.TL.Phone
             ObjectUtils.SerializeObject(Protocol, bw);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (Phone.TLPhoneCall)ObjectUtils.DeserializeObject(br);
         }

@@ -30,7 +30,13 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = NeedRating ? (Flags | 4) : (Flags & ~4);
+Flags = NeedDebug ? (Flags | 8) : (Flags & ~8);
+Flags = Video ? (Flags | 64) : (Flags & ~64);
+Flags = Reason != null ? (Flags | 1) : (Flags & ~1);
+Flags = Duration != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -38,7 +44,7 @@ namespace TgSharp.TL
             Flags = br.ReadInt32();
             NeedRating = (Flags & 4) != 0;
             NeedDebug = (Flags & 8) != 0;
-            Video = (Flags & 32) != 0;
+            Video = (Flags & 64) != 0;
             Id = br.ReadInt64();
             if ((Flags & 1) != 0)
                 Reason = (TLAbsPhoneCallDiscardReason)ObjectUtils.DeserializeObject(br);

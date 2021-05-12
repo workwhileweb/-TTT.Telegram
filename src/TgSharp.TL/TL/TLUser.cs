@@ -34,6 +34,7 @@ namespace TgSharp.TL
         public bool BotInlineGeo { get; set; }
         public bool Support { get; set; }
         public bool Scam { get; set; }
+        public bool ApplyMinPhoto { get; set; }
         public int Id { get; set; }
         public long? AccessHash { get; set; }
         public string FirstName { get; set; }
@@ -49,7 +50,33 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Self ? (Flags | 1024) : (Flags & ~1024);
+Flags = Contact ? (Flags | 2048) : (Flags & ~2048);
+Flags = MutualContact ? (Flags | 4096) : (Flags & ~4096);
+Flags = Deleted ? (Flags | 8192) : (Flags & ~8192);
+Flags = Bot ? (Flags | 16384) : (Flags & ~16384);
+Flags = BotChatHistory ? (Flags | 32768) : (Flags & ~32768);
+Flags = BotNochats ? (Flags | 65536) : (Flags & ~65536);
+Flags = Verified ? (Flags | 131072) : (Flags & ~131072);
+Flags = Restricted ? (Flags | 262144) : (Flags & ~262144);
+Flags = Min ? (Flags | 1048576) : (Flags & ~1048576);
+Flags = BotInlineGeo ? (Flags | 2097152) : (Flags & ~2097152);
+Flags = Support ? (Flags | 8388608) : (Flags & ~8388608);
+Flags = Scam ? (Flags | 16777216) : (Flags & ~16777216);
+Flags = ApplyMinPhoto ? (Flags | 33554432) : (Flags & ~33554432);
+Flags = AccessHash != null ? (Flags | 1) : (Flags & ~1);
+Flags = FirstName != null ? (Flags | 2) : (Flags & ~2);
+Flags = LastName != null ? (Flags | 4) : (Flags & ~4);
+Flags = Username != null ? (Flags | 8) : (Flags & ~8);
+Flags = Phone != null ? (Flags | 16) : (Flags & ~16);
+Flags = Photo != null ? (Flags | 32) : (Flags & ~32);
+Flags = Status != null ? (Flags | 64) : (Flags & ~64);
+Flags = BotInfoVersion != null ? (Flags | 16384) : (Flags & ~16384);
+Flags = RestrictionReason != null ? (Flags | 262144) : (Flags & ~262144);
+Flags = BotInlinePlaceholder != null ? (Flags | 524288) : (Flags & ~524288);
+Flags = LangCode != null ? (Flags | 4194304) : (Flags & ~4194304);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -68,6 +95,7 @@ namespace TgSharp.TL
             BotInlineGeo = (Flags & 2097152) != 0;
             Support = (Flags & 8388608) != 0;
             Scam = (Flags & 16777216) != 0;
+            ApplyMinPhoto = (Flags & 33554432) != 0;
             Id = br.ReadInt32();
             if ((Flags & 1) != 0)
                 AccessHash = br.ReadInt64();

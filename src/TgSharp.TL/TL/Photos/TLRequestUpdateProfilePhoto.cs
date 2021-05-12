@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Photos
 {
-    [TLObject(-256159406)]
-    public class TLRequestUpdateProfilePhoto : TLMethod
+    [TLObject(1926525996)]
+    public class TLRequestUpdateProfilePhoto : TLMethod<Photos.TLPhoto>
     {
         public override int Constructor
         {
             get
             {
-                return -256159406;
+                return 1926525996;
             }
         }
 
         public TLAbsInputPhoto Id { get; set; }
-        public TLAbsUserProfilePhoto Response { get; set; }
+        
 
         public void ComputeFlags()
         {
@@ -39,9 +39,9 @@ namespace TgSharp.TL.Photos
             ObjectUtils.SerializeObject(Id, bw);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
-            Response = (TLAbsUserProfilePhoto)ObjectUtils.DeserializeObject(br);
+            Response = (Photos.TLPhoto)ObjectUtils.DeserializeObject(br);
         }
     }
 }

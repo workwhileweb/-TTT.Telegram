@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Messages
 {
     [TLObject(363700068)]
-    public class TLRequestSetInlineGameScore : TLMethod
+    public class TLRequestSetInlineGameScore : TLMethod<bool>
     {
         public override int Constructor
         {
@@ -26,11 +26,14 @@ namespace TgSharp.TL.Messages
         public TLInputBotInlineMessageID Id { get; set; }
         public TLAbsInputUser UserId { get; set; }
         public int Score { get; set; }
-        public bool Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = EditMessage ? (Flags | 1) : (Flags & ~1);
+Flags = Force ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -52,7 +55,7 @@ namespace TgSharp.TL.Messages
             bw.Write(Score);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
         }

@@ -37,7 +37,20 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = ViewMessages ? (Flags | 1) : (Flags & ~1);
+Flags = SendMessages ? (Flags | 2) : (Flags & ~2);
+Flags = SendMedia ? (Flags | 4) : (Flags & ~4);
+Flags = SendStickers ? (Flags | 8) : (Flags & ~8);
+Flags = SendGifs ? (Flags | 16) : (Flags & ~16);
+Flags = SendGames ? (Flags | 32) : (Flags & ~32);
+Flags = SendInline ? (Flags | 64) : (Flags & ~64);
+Flags = EmbedLinks ? (Flags | 128) : (Flags & ~128);
+Flags = SendPolls ? (Flags | 256) : (Flags & ~256);
+Flags = ChangeInfo ? (Flags | 1024) : (Flags & ~1024);
+Flags = InviteUsers ? (Flags | 32768) : (Flags & ~32768);
+Flags = PinMessages ? (Flags | 131072) : (Flags & ~131072);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

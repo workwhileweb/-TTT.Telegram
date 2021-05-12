@@ -39,7 +39,11 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Current ? (Flags | 1) : (Flags & ~1);
+Flags = OfficialApp ? (Flags | 2) : (Flags & ~2);
+Flags = PasswordPending ? (Flags | 4) : (Flags & ~4);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

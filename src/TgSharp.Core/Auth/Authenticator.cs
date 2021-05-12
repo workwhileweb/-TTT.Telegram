@@ -1,45 +1,65 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using TgSharp.Core.Network;
 
 namespace TgSharp.Core.Auth
 {
-    public static class Authenticator
+    public class Authenticator
     {
-        public static async Task<Step3_Response> DoAuthentication(TcpTransport transport, CancellationToken token = default(CancellationToken))
+        private readonly MtProtoPlainSender sender;
+        private TaskCompletionSource<Step3_Response> completionSource;
+        public Authenticator(WssTransport transport)
         {
-            token.ThrowIfCancellationRequested();
+            sender = new(transport);
+            completionSource = new TaskCompletionSource<Step3_Response>();
+        }
 
-            var sender = new MtProtoPlainSender(transport);
+        public Task<Step3_Response> DoAuthentication()
+        {
+            //TODO: event hell?
+
             var step1 = new Step1_PQRequest();
 
-            await sender.Send(step1.ToBytes(), token).ConfigureAwait(false);
-            var step1Response = step1.FromBytes(await sender.Receive(token)
-                .ConfigureAwait(false));
+            //race condition ? move randomization in consturctor
+
+            sender.OnResponseReceived = (response) => Sender_OnStep1ResponseReceived(step1, response); 
+            sender.Send(step1.ToBytes());
+
+
+            return completionSource.Task;
+        }
+
+        private void Sender_OnStep1ResponseReceived(Step1_PQRequest step1, byte[] response)
+        {
+            var step1Response = step1.FromBytes(response);
 
             var step2 = new Step2_DHExchange();
-            await sender.Send(step2.ToBytes(
+            sender.OnResponseReceived = (response) => Sender_OnStep2ResponseReceived(step2, response);
+            sender.Send(step2.ToBytes(
                     step1Response.Nonce,
                     step1Response.ServerNonce,
                     step1Response.Fingerprints,
-                    step1Response.Pq), token)
-                .ConfigureAwait(false);
+                    step1Response.Pq));
+        }
 
-            var step2Response = step2.FromBytes(await sender.Receive(token)
-                .ConfigureAwait(false));
+        private void Sender_OnStep2ResponseReceived(Step2_DHExchange step2, byte[] response)
+        {
+            var step2Response = step2.FromBytes(response);
+
 
             var step3 = new Step3_CompleteDHExchange();
-            await sender.Send(step3.ToBytes(
+            sender.OnResponseReceived = (response) => Sender_OnStep3ResponseReceived(step3, response);
+            sender.Send(step3.ToBytes(
                     step2Response.Nonce,
                     step2Response.ServerNonce,
                     step2Response.NewNonce,
-                    step2Response.EncryptedAnswer), token)
-                .ConfigureAwait(false);
+                    step2Response.EncryptedAnswer));
+        }
 
-            var step3Response = step3.FromBytes(await sender.Receive(token)
-                .ConfigureAwait(false));
-
-            return step3Response;
+        private void Sender_OnStep3ResponseReceived(Step3_CompleteDHExchange step3, byte[] response)
+        {
+            completionSource.SetResult(step3.FromBytes(response));
         }
     }
 }

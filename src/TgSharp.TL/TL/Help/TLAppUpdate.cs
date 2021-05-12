@@ -31,7 +31,11 @@ namespace TgSharp.TL.Help
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = CanNotSkip ? (Flags | 1) : (Flags & ~1);
+Flags = Document != null ? (Flags | 2) : (Flags & ~2);
+Flags = Url != null ? (Flags | 4) : (Flags & ~4);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

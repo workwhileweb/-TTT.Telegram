@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1683841855)]
+    [TLObject(512177195)]
     public class TLDocument : TLAbsDocument
     {
         public override int Constructor
         {
             get
             {
-                return -1683841855;
+                return 512177195;
             }
         }
 
@@ -28,12 +28,16 @@ namespace TgSharp.TL
         public string MimeType { get; set; }
         public int Size { get; set; }
         public TLVector<TLAbsPhotoSize> Thumbs { get; set; }
+        public TLVector<TLVideoSize> VideoThumbs { get; set; }
         public int DcId { get; set; }
         public TLVector<TLAbsDocumentAttribute> Attributes { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Thumbs != null ? (Flags | 1) : (Flags & ~1);
+Flags = VideoThumbs != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -49,6 +53,11 @@ namespace TgSharp.TL
                 Thumbs = (TLVector<TLAbsPhotoSize>)ObjectUtils.DeserializeVector<TLAbsPhotoSize>(br);
             else
                 Thumbs = null;
+
+            if ((Flags & 2) != 0)
+                VideoThumbs = (TLVector<TLVideoSize>)ObjectUtils.DeserializeVector<TLVideoSize>(br);
+            else
+                VideoThumbs = null;
 
             DcId = br.ReadInt32();
             Attributes = (TLVector<TLAbsDocumentAttribute>)ObjectUtils.DeserializeVector<TLAbsDocumentAttribute>(br);
@@ -66,6 +75,8 @@ namespace TgSharp.TL
             bw.Write(Size);
             if ((Flags & 1) != 0)
                 ObjectUtils.SerializeObject(Thumbs, bw);
+            if ((Flags & 2) != 0)
+                ObjectUtils.SerializeObject(VideoThumbs, bw);
             bw.Write(DcId);
             ObjectUtils.SerializeObject(Attributes, bw);
         }

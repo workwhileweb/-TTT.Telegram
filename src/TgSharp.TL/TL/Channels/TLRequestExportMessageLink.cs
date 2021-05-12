@@ -9,43 +9,50 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Channels
 {
-    [TLObject(-826838685)]
-    public class TLRequestExportMessageLink : TLMethod
+    [TLObject(-432034325)]
+    public class TLRequestExportMessageLink : TLMethod<TLExportedMessageLink>
     {
         public override int Constructor
         {
             get
             {
-                return -826838685;
+                return -432034325;
             }
         }
 
+        public int Flags { get; set; }
+        public bool Grouped { get; set; }
+        public bool Thread { get; set; }
         public TLAbsInputChannel Channel { get; set; }
         public int Id { get; set; }
-        public bool Grouped { get; set; }
-        public TLExportedMessageLink Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Grouped ? (Flags | 1) : (Flags & ~1);
+Flags = Thread ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
+            Flags = br.ReadInt32();
+            Grouped = (Flags & 1) != 0;
+            Thread = (Flags & 2) != 0;
             Channel = (TLAbsInputChannel)ObjectUtils.DeserializeObject(br);
             Id = br.ReadInt32();
-            Grouped = BoolUtil.Deserialize(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            bw.Write(Flags);
             ObjectUtils.SerializeObject(Channel, bw);
             bw.Write(Id);
-            BoolUtil.Serialize(Grouped, bw);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (TLExportedMessageLink)ObjectUtils.DeserializeObject(br);
         }

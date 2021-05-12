@@ -27,7 +27,10 @@ namespace TgSharp.TL.Help
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = UpdateApp ? (Flags | 1) : (Flags & ~1);
+Flags = Entities != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

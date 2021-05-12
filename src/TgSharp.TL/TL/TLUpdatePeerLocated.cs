@@ -20,7 +20,7 @@ namespace TgSharp.TL
             }
         }
 
-        public TLVector<TLPeerLocated> Peers { get; set; }
+        public TLVector<TLAbsPeerLocated> Peers { get; set; }
 
         public void ComputeFlags()
         {
@@ -29,7 +29,7 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Peers = (TLVector<TLPeerLocated>)ObjectUtils.DeserializeVector<TLPeerLocated>(br);
+            Peers = (TLVector<TLAbsPeerLocated>)ObjectUtils.DeserializeVector<TLAbsPeerLocated>(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)

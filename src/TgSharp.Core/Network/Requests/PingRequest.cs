@@ -6,7 +6,7 @@ using TgSharp.Core.Utils;
 
 namespace TgSharp.Core.Network.Requests
 {
-    public class PingRequest : TLMethod
+    public class PingRequest : TLMethod<TLPong>
     {
         public PingRequest()
         {
@@ -23,9 +23,9 @@ namespace TgSharp.Core.Network.Requests
             throw new NotImplementedException();
         }
 
-        public override void DeserializeResponse(BinaryReader stream)
+        protected override void DeserializeResponse(BinaryReader stream)
         {
-            throw new NotImplementedException();
+            Response = (TLPong)ObjectUtils.DeserializeObject(stream);
         }
 
         public override int Constructor
@@ -34,6 +34,26 @@ namespace TgSharp.Core.Network.Requests
             {
                 return 0x7abe77ec;
             }
+        }
+    }
+
+    public class TLPong : TLObject
+    {
+        public long MessageId { get; set; }
+        public long PingId { get; set; }
+
+        public override int Constructor => 0x347773C5;
+
+        public override void DeserializeBody(BinaryReader br)
+        {
+            MessageId = br.ReadInt64();
+            PingId = br.ReadInt64();
+        }
+
+        public override void SerializeBody(BinaryWriter bw)
+        {
+            bw.Write(MessageId);
+            bw.Write(PingId);
         }
     }
 }

@@ -9,35 +9,37 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-321430132)]
+    [TLObject(1775479590)]
     public class TLUserProfilePhoto : TLAbsUserProfilePhoto
     {
         public override int Constructor
         {
             get
             {
-                return -321430132;
+                return 1775479590;
             }
         }
 
+        public int Flags { get; set; }
+        public bool HasVideo { get; set; }
         public long PhotoId { get; set; }
-        // manual edit: FileLocation->TLFileLocationToBeDeprecated
         public TLFileLocationToBeDeprecated PhotoSmall { get; set; }
-        // manual edit: FileLocation->TLFileLocationToBeDeprecated
         public TLFileLocationToBeDeprecated PhotoBig { get; set; }
         public int DcId { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = HasVideo ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
+            Flags = br.ReadInt32();
+            HasVideo = (Flags & 1) != 0;
             PhotoId = br.ReadInt64();
-            // manual edit: FileLocation->TLFileLocationToBeDeprecated
             PhotoSmall = (TLFileLocationToBeDeprecated)ObjectUtils.DeserializeObject(br);
-            // manual edit: FileLocation->TLFileLocationToBeDeprecated
             PhotoBig = (TLFileLocationToBeDeprecated)ObjectUtils.DeserializeObject(br);
             DcId = br.ReadInt32();
         }
@@ -45,6 +47,7 @@ namespace TgSharp.TL
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            bw.Write(Flags);
             bw.Write(PhotoId);
             ObjectUtils.SerializeObject(PhotoSmall, bw);
             ObjectUtils.SerializeObject(PhotoBig, bw);

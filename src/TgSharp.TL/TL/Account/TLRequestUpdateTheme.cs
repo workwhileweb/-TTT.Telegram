@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Account
 {
     [TLObject(1555261397)]
-    public class TLRequestUpdateTheme : TLMethod
+    public class TLRequestUpdateTheme : TLMethod<TLTheme>
     {
         public override int Constructor
         {
@@ -27,11 +27,16 @@ namespace TgSharp.TL.Account
         public string Title { get; set; }
         public TLAbsInputDocument Document { get; set; }
         public TLInputThemeSettings Settings { get; set; }
-        public TLTheme Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Slug != null ? (Flags | 1) : (Flags & ~1);
+Flags = Title != null ? (Flags | 2) : (Flags & ~2);
+Flags = Document != null ? (Flags | 4) : (Flags & ~4);
+Flags = Settings != null ? (Flags | 8) : (Flags & ~8);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -77,7 +82,7 @@ namespace TgSharp.TL.Account
                 ObjectUtils.SerializeObject(Settings, bw);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (TLTheme)ObjectUtils.DeserializeObject(br);
         }

@@ -34,7 +34,16 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Test ? (Flags | 1) : (Flags & ~1);
+Flags = NameRequested ? (Flags | 2) : (Flags & ~2);
+Flags = PhoneRequested ? (Flags | 4) : (Flags & ~4);
+Flags = EmailRequested ? (Flags | 8) : (Flags & ~8);
+Flags = ShippingAddressRequested ? (Flags | 16) : (Flags & ~16);
+Flags = Flexible ? (Flags | 32) : (Flags & ~32);
+Flags = PhoneToProvider ? (Flags | 64) : (Flags & ~64);
+Flags = EmailToProvider ? (Flags | 128) : (Flags & ~128);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Messages
 {
     [TLObject(-2127811866)]
-    public class TLRequestGetStatsURL : TLMethod
+    public class TLRequestGetStatsURL : TLMethod<TLStatsURL>
     {
         public override int Constructor
         {
@@ -24,11 +24,13 @@ namespace TgSharp.TL.Messages
         public bool Dark { get; set; }
         public TLAbsInputPeer Peer { get; set; }
         public string Params { get; set; }
-        public TLStatsURL Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Dark ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -47,7 +49,7 @@ namespace TgSharp.TL.Messages
             StringUtil.Serialize(Params, bw);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (TLStatsURL)ObjectUtils.DeserializeObject(br);
         }

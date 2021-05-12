@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(82699215)]
+    [TLObject(-958657434)]
     public class TLFeaturedStickersNotModified : TLAbsFeaturedStickers
     {
         public override int Constructor
         {
             get
             {
-                return 82699215;
+                return -958657434;
             }
         }
 
-        // no fields
+        public int Count { get; set; }
 
         public void ComputeFlags()
         {
@@ -29,13 +29,13 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            // do nothing
+            Count = br.ReadInt32();
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            // do nothing
+            bw.Write(Count);
         }
     }
 }

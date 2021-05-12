@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Messages
 {
     [TLObject(-436833542)]
-    public class TLRequestSetBotShippingResults : TLMethod
+    public class TLRequestSetBotShippingResults : TLMethod<bool>
     {
         public override int Constructor
         {
@@ -24,11 +24,14 @@ namespace TgSharp.TL.Messages
         public long QueryId { get; set; }
         public string Error { get; set; }
         public TLVector<TLShippingOption> ShippingOptions { get; set; }
-        public bool Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Error != null ? (Flags | 1) : (Flags & ~1);
+Flags = ShippingOptions != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -58,7 +61,7 @@ namespace TgSharp.TL.Messages
                 ObjectUtils.SerializeObject(ShippingOptions, bw);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
         }

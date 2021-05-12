@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1642487306)]
+    [TLObject(678405636)]
     public class TLMessageService : TLAbsMessage
     {
         public override int Constructor
         {
             get
             {
-                return -1642487306;
+                return 678405636;
             }
         }
 
@@ -28,15 +28,24 @@ namespace TgSharp.TL
         public bool Post { get; set; }
         public bool Legacy { get; set; }
         public int Id { get; set; }
-        public int? FromId { get; set; }
-        public TLAbsPeer ToId { get; set; }
-        public int? ReplyToMsgId { get; set; }
+        public TLAbsPeer FromId { get; set; }
+        public TLAbsPeer PeerId { get; set; }
+        public TLMessageReplyHeader ReplyTo { get; set; }
         public int Date { get; set; }
         public TLAbsMessageAction Action { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Out ? (Flags | 2) : (Flags & ~2);
+Flags = Mentioned ? (Flags | 16) : (Flags & ~16);
+Flags = MediaUnread ? (Flags | 32) : (Flags & ~32);
+Flags = Silent ? (Flags | 8192) : (Flags & ~8192);
+Flags = Post ? (Flags | 16384) : (Flags & ~16384);
+Flags = Legacy ? (Flags | 524288) : (Flags & ~524288);
+Flags = FromId != null ? (Flags | 256) : (Flags & ~256);
+Flags = ReplyTo != null ? (Flags | 8) : (Flags & ~8);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -50,15 +59,15 @@ namespace TgSharp.TL
             Legacy = (Flags & 524288) != 0;
             Id = br.ReadInt32();
             if ((Flags & 256) != 0)
-                FromId = br.ReadInt32();
+                FromId = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
             else
                 FromId = null;
 
-            ToId = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
+            PeerId = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
             if ((Flags & 8) != 0)
-                ReplyToMsgId = br.ReadInt32();
+                ReplyTo = (TLMessageReplyHeader)ObjectUtils.DeserializeObject(br);
             else
-                ReplyToMsgId = null;
+                ReplyTo = null;
 
             Date = br.ReadInt32();
             Action = (TLAbsMessageAction)ObjectUtils.DeserializeObject(br);
@@ -70,10 +79,10 @@ namespace TgSharp.TL
             bw.Write(Flags);
             bw.Write(Id);
             if ((Flags & 256) != 0)
-                bw.Write(FromId.Value);
-            ObjectUtils.SerializeObject(ToId, bw);
+                ObjectUtils.SerializeObject(FromId, bw);
+            ObjectUtils.SerializeObject(PeerId, bw);
             if ((Flags & 8) != 0)
-                bw.Write(ReplyToMsgId.Value);
+                ObjectUtils.SerializeObject(ReplyTo, bw);
             bw.Write(Date);
             ObjectUtils.SerializeObject(Action, bw);
         }

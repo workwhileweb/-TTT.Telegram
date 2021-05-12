@@ -30,7 +30,14 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Blur ? (Flags | 2) : (Flags & ~2);
+Flags = Motion ? (Flags | 4) : (Flags & ~4);
+Flags = BackgroundColor != null ? (Flags | 1) : (Flags & ~1);
+Flags = SecondBackgroundColor != null ? (Flags | 16) : (Flags & ~16);
+Flags = Intensity != null ? (Flags | 8) : (Flags & ~8);
+Flags = Rotation != null ? (Flags | 16) : (Flags & ~16);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

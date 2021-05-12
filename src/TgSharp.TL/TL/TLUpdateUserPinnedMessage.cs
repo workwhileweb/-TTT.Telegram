@@ -9,19 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1279515160)]
-    public class TLUpdateUserPinnedMessage : TLAbsUpdate
+    [TLObject(-1010402965)]
+    public class TLChannelParticipantLeft : TLAbsChannelParticipant
     {
         public override int Constructor
         {
             get
             {
-                return 1279515160;
+                return -1010402965;
             }
         }
 
         public int UserId { get; set; }
-        public int Id { get; set; }
 
         public void ComputeFlags()
         {
@@ -31,14 +30,12 @@ namespace TgSharp.TL
         public override void DeserializeBody(BinaryReader br)
         {
             UserId = br.ReadInt32();
-            Id = br.ReadInt32();
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
             bw.Write(UserId);
-            bw.Write(Id);
         }
     }
 }

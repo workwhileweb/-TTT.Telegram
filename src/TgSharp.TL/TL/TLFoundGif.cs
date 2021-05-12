@@ -9,23 +9,22 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(372165663)]
-    public class TLFoundGif : TLAbsFoundGif
+    [TLObject(1520986705)]
+    public class TLPhotoSizeProgressive : TLAbsPhotoSize
     {
         public override int Constructor
         {
             get
             {
-                return 372165663;
+                return 1520986705;
             }
         }
 
-        public string Url { get; set; }
-        public string ThumbUrl { get; set; }
-        public string ContentUrl { get; set; }
-        public string ContentType { get; set; }
+        public string Type { get; set; }
+        public TLFileLocationToBeDeprecated Location { get; set; }
         public int W { get; set; }
         public int H { get; set; }
+        public TLVector<int> Sizes { get; set; }
 
         public void ComputeFlags()
         {
@@ -34,23 +33,21 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Url = StringUtil.Deserialize(br);
-            ThumbUrl = StringUtil.Deserialize(br);
-            ContentUrl = StringUtil.Deserialize(br);
-            ContentType = StringUtil.Deserialize(br);
+            Type = StringUtil.Deserialize(br);
+            Location = (TLFileLocationToBeDeprecated)ObjectUtils.DeserializeObject(br);
             W = br.ReadInt32();
             H = br.ReadInt32();
+            Sizes = (TLVector<int>)ObjectUtils.DeserializeVector<int>(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(Url, bw);
-            StringUtil.Serialize(ThumbUrl, bw);
-            StringUtil.Serialize(ContentUrl, bw);
-            StringUtil.Serialize(ContentType, bw);
+            StringUtil.Serialize(Type, bw);
+            ObjectUtils.SerializeObject(Location, bw);
             bw.Write(W);
             bw.Write(H);
+            ObjectUtils.SerializeObject(Sizes, bw);
         }
     }
 }

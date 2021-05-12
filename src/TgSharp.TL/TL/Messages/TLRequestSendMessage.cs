@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Messages
 {
     [TLObject(1376532592)]
-    public class TLRequestSendMessage : TLMethod
+    public class TLRequestSendMessage : TLMethod<TLAbsUpdates>
     {
         public override int Constructor
         {
@@ -32,11 +32,20 @@ namespace TgSharp.TL.Messages
         public TLAbsReplyMarkup ReplyMarkup { get; set; }
         public TLVector<TLAbsMessageEntity> Entities { get; set; }
         public int? ScheduleDate { get; set; }
-        public TLAbsUpdates Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = NoWebpage ? (Flags | 2) : (Flags & ~2);
+Flags = Silent ? (Flags | 32) : (Flags & ~32);
+Flags = Background ? (Flags | 64) : (Flags & ~64);
+Flags = ClearDraft ? (Flags | 128) : (Flags & ~128);
+Flags = ReplyToMsgId != null ? (Flags | 1) : (Flags & ~1);
+Flags = ReplyMarkup != null ? (Flags | 4) : (Flags & ~4);
+Flags = Entities != null ? (Flags | 8) : (Flags & ~8);
+Flags = ScheduleDate != null ? (Flags | 1024) : (Flags & ~1024);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -88,7 +97,7 @@ namespace TgSharp.TL.Messages
                 bw.Write(ScheduleDate.Value);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (TLAbsUpdates)ObjectUtils.DeserializeObject(br);
         }

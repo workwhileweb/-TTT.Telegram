@@ -26,6 +26,7 @@ namespace TgSharp.TL
         public bool PhoneCallsPrivate { get; set; }
         public bool CanPinMessage { get; set; }
         public bool HasScheduled { get; set; }
+        public bool VideoCallsAvailable { get; set; }
         public TLAbsUser User { get; set; }
         public string About { get; set; }
         public TLPeerSettings Settings { get; set; }
@@ -38,7 +39,19 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Blocked ? (Flags | 1) : (Flags & ~1);
+Flags = PhoneCallsAvailable ? (Flags | 16) : (Flags & ~16);
+Flags = PhoneCallsPrivate ? (Flags | 32) : (Flags & ~32);
+Flags = CanPinMessage ? (Flags | 128) : (Flags & ~128);
+Flags = HasScheduled ? (Flags | 4096) : (Flags & ~4096);
+Flags = VideoCallsAvailable ? (Flags | 8192) : (Flags & ~8192);
+Flags = About != null ? (Flags | 2) : (Flags & ~2);
+Flags = ProfilePhoto != null ? (Flags | 4) : (Flags & ~4);
+Flags = BotInfo != null ? (Flags | 8) : (Flags & ~8);
+Flags = PinnedMsgId != null ? (Flags | 64) : (Flags & ~64);
+Flags = FolderId != null ? (Flags | 2048) : (Flags & ~2048);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -49,6 +62,7 @@ namespace TgSharp.TL
             PhoneCallsPrivate = (Flags & 32) != 0;
             CanPinMessage = (Flags & 128) != 0;
             HasScheduled = (Flags & 4096) != 0;
+            VideoCallsAvailable = (Flags & 8192) != 0;
             User = (TLAbsUser)ObjectUtils.DeserializeObject(br);
             if ((Flags & 2) != 0)
                 About = StringUtil.Deserialize(br);

@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL
 {
     [TLObject(-901375139)]
-    public class TLPeerLocated : TLObject
+    public class TLPeerLocated : TLAbsPeerLocated
     {
         public override int Constructor
         {

@@ -35,7 +35,12 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Official ? (Flags | 1) : (Flags & ~1);
+Flags = Rtl ? (Flags | 4) : (Flags & ~4);
+Flags = Beta ? (Flags | 8) : (Flags & ~8);
+Flags = BaseLangCode != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Contacts
 {
-    [TLObject(-448724803)]
-    public class TLRequestUnblock : TLMethod
+    [TLObject(-1096393392)]
+    public class TLRequestUnblock : TLMethod<bool>
     {
         public override int Constructor
         {
             get
             {
-                return -448724803;
+                return -1096393392;
             }
         }
 
-        public TLAbsInputUser Id { get; set; }
-        public bool Response { get; set; }
+        public TLAbsInputPeer Id { get; set; }
+        
 
         public void ComputeFlags()
         {
@@ -30,7 +30,7 @@ namespace TgSharp.TL.Contacts
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Id = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
+            Id = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -39,7 +39,7 @@ namespace TgSharp.TL.Contacts
             ObjectUtils.SerializeObject(Id, bw);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
         }

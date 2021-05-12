@@ -25,7 +25,9 @@ namespace TgSharp.TL.Auth
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = TermsOfService != null ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

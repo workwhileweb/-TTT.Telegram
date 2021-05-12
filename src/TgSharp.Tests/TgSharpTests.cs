@@ -243,7 +243,7 @@ namespace TgSharp.Tests
                 .FirstOrDefault(x => x.Phone == NumberToSendMessage);
 
             var inputPeer = new TLInputPeerUser() { UserId = user.Id };
-            var res = await client.SendRequestAsync<TLMessagesSlice>(new TLRequestGetHistory() { Peer = inputPeer });
+            var res = (TLMessagesSlice)await client.SendRequestAsync(new TLRequestGetHistory() { Peer = inputPeer });
             var document = res.Messages
                 .OfType<TLMessage>()
                 .Where(m => m.Media != null)

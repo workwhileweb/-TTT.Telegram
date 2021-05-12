@@ -33,7 +33,13 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Creator ? (Flags | 1) : (Flags & ~1);
+Flags = Default ? (Flags | 2) : (Flags & ~2);
+Flags = Pattern ? (Flags | 8) : (Flags & ~8);
+Flags = Dark ? (Flags | 16) : (Flags & ~16);
+Flags = Settings != null ? (Flags | 4) : (Flags & ~4);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

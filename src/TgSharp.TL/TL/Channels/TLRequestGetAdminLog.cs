@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Channels
 {
     [TLObject(870184064)]
-    public class TLRequestGetAdminLog : TLMethod
+    public class TLRequestGetAdminLog : TLMethod<Channels.TLAdminLogResults>
     {
         public override int Constructor
         {
@@ -28,11 +28,14 @@ namespace TgSharp.TL.Channels
         public long MaxId { get; set; }
         public long MinId { get; set; }
         public int Limit { get; set; }
-        public Channels.TLAdminLogResults Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = EventsFilter != null ? (Flags | 1) : (Flags & ~1);
+Flags = Admins != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -70,7 +73,7 @@ namespace TgSharp.TL.Channels
             bw.Write(Limit);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (Channels.TLAdminLogResults)ObjectUtils.DeserializeObject(br);
         }

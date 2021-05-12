@@ -9,7 +9,7 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    public abstract class TLAbsFoundGif : TLObject
+    public abstract class TLAbsStatsGraph : TLObject
     {
     }
 }

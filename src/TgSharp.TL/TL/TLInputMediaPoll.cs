@@ -9,33 +9,64 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(112424539)]
+    [TLObject(261416433)]
     public class TLInputMediaPoll : TLAbsInputMedia
     {
         public override int Constructor
         {
             get
             {
-                return 112424539;
+                return 261416433;
             }
         }
 
+        public int Flags { get; set; }
         public TLPoll Poll { get; set; }
+        public TLVector<byte[]> CorrectAnswers { get; set; }
+        public string Solution { get; set; }
+        public TLVector<TLAbsMessageEntity> SolutionEntities { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = CorrectAnswers != null ? (Flags | 1) : (Flags & ~1);
+Flags = Solution != null ? (Flags | 2) : (Flags & ~2);
+Flags = SolutionEntities != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
+            Flags = br.ReadInt32();
             Poll = (TLPoll)ObjectUtils.DeserializeObject(br);
+            if ((Flags & 1) != 0)
+                CorrectAnswers = (TLVector<byte[]>)ObjectUtils.DeserializeVector<byte[]>(br);
+            else
+                CorrectAnswers = null;
+
+            if ((Flags & 2) != 0)
+                Solution = StringUtil.Deserialize(br);
+            else
+                Solution = null;
+
+            if ((Flags & 2) != 0)
+                SolutionEntities = (TLVector<TLAbsMessageEntity>)ObjectUtils.DeserializeVector<TLAbsMessageEntity>(br);
+            else
+                SolutionEntities = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
+            bw.Write(Flags);
             ObjectUtils.SerializeObject(Poll, bw);
+            if ((Flags & 1) != 0)
+                ObjectUtils.SerializeObject(CorrectAnswers, bw);
+            if ((Flags & 2) != 0)
+                StringUtil.Serialize(Solution, bw);
+            if ((Flags & 2) != 0)
+                ObjectUtils.SerializeObject(SolutionEntities, bw);
         }
     }
 }

@@ -26,7 +26,10 @@ namespace TgSharp.TL.Account
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = SensitiveEnabled ? (Flags | 1) : (Flags & ~1);
+Flags = SensitiveCanChange ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

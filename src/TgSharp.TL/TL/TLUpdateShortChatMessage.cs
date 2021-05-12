@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(377562760)]
+    [TLObject(1076714939)]
     public class TLUpdateShortChatMessage : TLAbsUpdates
     {
         public override int Constructor
         {
             get
             {
-                return 377562760;
+                return 1076714939;
             }
         }
 
@@ -34,12 +34,21 @@ namespace TgSharp.TL
         public int Date { get; set; }
         public TLMessageFwdHeader FwdFrom { get; set; }
         public int? ViaBotId { get; set; }
-        public int? ReplyToMsgId { get; set; }
+        public TLMessageReplyHeader ReplyTo { get; set; }
         public TLVector<TLAbsMessageEntity> Entities { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Out ? (Flags | 2) : (Flags & ~2);
+Flags = Mentioned ? (Flags | 16) : (Flags & ~16);
+Flags = MediaUnread ? (Flags | 32) : (Flags & ~32);
+Flags = Silent ? (Flags | 8192) : (Flags & ~8192);
+Flags = FwdFrom != null ? (Flags | 4) : (Flags & ~4);
+Flags = ViaBotId != null ? (Flags | 2048) : (Flags & ~2048);
+Flags = ReplyTo != null ? (Flags | 8) : (Flags & ~8);
+Flags = Entities != null ? (Flags | 128) : (Flags & ~128);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -67,9 +76,9 @@ namespace TgSharp.TL
                 ViaBotId = null;
 
             if ((Flags & 8) != 0)
-                ReplyToMsgId = br.ReadInt32();
+                ReplyTo = (TLMessageReplyHeader)ObjectUtils.DeserializeObject(br);
             else
-                ReplyToMsgId = null;
+                ReplyTo = null;
 
             if ((Flags & 128) != 0)
                 Entities = (TLVector<TLAbsMessageEntity>)ObjectUtils.DeserializeVector<TLAbsMessageEntity>(br);
@@ -94,7 +103,7 @@ namespace TgSharp.TL
             if ((Flags & 2048) != 0)
                 bw.Write(ViaBotId.Value);
             if ((Flags & 8) != 0)
-                bw.Write(ReplyToMsgId.Value);
+                ObjectUtils.SerializeObject(ReplyTo, bw);
             if ((Flags & 128) != 0)
                 ObjectUtils.SerializeObject(Entities, bw);
         }

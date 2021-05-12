@@ -9,19 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(1158290442)]
-    public class TLFoundGifs : TLObject
+    [TLObject(-1566780372)]
+    public class TLRequestGetSuggestedDialogFilters : TLMethod<TLVector<TLDialogFilterSuggested>>
     {
         public override int Constructor
         {
             get
             {
-                return 1158290442;
+                return -1566780372;
             }
         }
 
-        public int NextOffset { get; set; }
-        public TLVector<TLAbsFoundGif> Results { get; set; }
+        
 
         public void ComputeFlags()
         {
@@ -30,15 +29,18 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            NextOffset = br.ReadInt32();
-            Results = (TLVector<TLAbsFoundGif>)ObjectUtils.DeserializeVector<TLAbsFoundGif>(br);
+            // do nothing
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(NextOffset);
-            ObjectUtils.SerializeObject(Results, bw);
+            // do nothing else
+        }
+
+        protected override void DeserializeResponse(BinaryReader br)
+        {
+            Response = (TLVector<TLDialogFilterSuggested>)ObjectUtils.DeserializeVector<TLDialogFilterSuggested>(br);
         }
     }
 }

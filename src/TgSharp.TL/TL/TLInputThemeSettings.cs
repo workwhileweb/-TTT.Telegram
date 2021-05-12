@@ -30,7 +30,12 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = MessageTopColor != null ? (Flags | 1) : (Flags & ~1);
+Flags = MessageBottomColor != null ? (Flags | 1) : (Flags & ~1);
+Flags = Wallpaper != null ? (Flags | 2) : (Flags & ~2);
+Flags = WallpaperSettings != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

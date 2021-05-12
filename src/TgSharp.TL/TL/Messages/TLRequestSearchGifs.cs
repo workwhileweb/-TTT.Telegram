@@ -9,20 +9,21 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Messages
 {
-    [TLObject(-1080395925)]
-    public class TLRequestSearchGifs : TLMethod
+    [TLObject(1608974939)]
+    public class TLRequestGetOldFeaturedStickers : TLMethod<Messages.TLAbsFeaturedStickers>
     {
         public override int Constructor
         {
             get
             {
-                return -1080395925;
+                return 1608974939;
             }
         }
 
-        public string Q { get; set; }
         public int Offset { get; set; }
-        public Messages.TLFoundGifs Response { get; set; }
+        public int Limit { get; set; }
+        public int Hash { get; set; }
+        
 
         public void ComputeFlags()
         {
@@ -31,20 +32,22 @@ namespace TgSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Q = StringUtil.Deserialize(br);
             Offset = br.ReadInt32();
+            Limit = br.ReadInt32();
+            Hash = br.ReadInt32();
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(Q, bw);
             bw.Write(Offset);
+            bw.Write(Limit);
+            bw.Write(Hash);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
-            Response = (Messages.TLFoundGifs)ObjectUtils.DeserializeObject(br);
+            Response = (Messages.TLAbsFeaturedStickers)ObjectUtils.DeserializeObject(br);
         }
     }
 }

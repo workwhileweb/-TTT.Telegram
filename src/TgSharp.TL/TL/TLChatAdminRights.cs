@@ -29,10 +29,25 @@ namespace TgSharp.TL
         public bool InviteUsers { get; set; }
         public bool PinMessages { get; set; }
         public bool AddAdmins { get; set; }
+        public bool Anonymous { get; set; }
+        public bool ManageCall { get; set; }
+        public bool Other { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = ChangeInfo ? (Flags | 1) : (Flags & ~1);
+Flags = PostMessages ? (Flags | 2) : (Flags & ~2);
+Flags = EditMessages ? (Flags | 4) : (Flags & ~4);
+Flags = DeleteMessages ? (Flags | 8) : (Flags & ~8);
+Flags = BanUsers ? (Flags | 16) : (Flags & ~16);
+Flags = InviteUsers ? (Flags | 32) : (Flags & ~32);
+Flags = PinMessages ? (Flags | 128) : (Flags & ~128);
+Flags = AddAdmins ? (Flags | 512) : (Flags & ~512);
+Flags = Anonymous ? (Flags | 1024) : (Flags & ~1024);
+Flags = ManageCall ? (Flags | 2048) : (Flags & ~2048);
+Flags = Other ? (Flags | 4096) : (Flags & ~4096);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -46,6 +61,9 @@ namespace TgSharp.TL
             InviteUsers = (Flags & 32) != 0;
             PinMessages = (Flags & 128) != 0;
             AddAdmins = (Flags & 512) != 0;
+            Anonymous = (Flags & 1024) != 0;
+            ManageCall = (Flags & 2048) != 0;
+            Other = (Flags & 4096) != 0;
         }
 
         public override void SerializeBody(BinaryWriter bw)

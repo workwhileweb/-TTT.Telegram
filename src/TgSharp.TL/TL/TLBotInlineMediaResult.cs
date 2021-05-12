@@ -31,7 +31,12 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Photo != null ? (Flags | 1) : (Flags & ~1);
+Flags = Document != null ? (Flags | 2) : (Flags & ~2);
+Flags = Title != null ? (Flags | 4) : (Flags & ~4);
+Flags = Description != null ? (Flags | 8) : (Flags & ~8);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

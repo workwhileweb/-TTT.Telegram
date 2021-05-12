@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Messages
 {
     [TLObject(1475442322)]
-    public class TLRequestGetArchivedStickers : TLMethod
+    public class TLRequestGetArchivedStickers : TLMethod<Messages.TLArchivedStickers>
     {
         public override int Constructor
         {
@@ -24,11 +24,13 @@ namespace TgSharp.TL.Messages
         public bool Masks { get; set; }
         public long OffsetId { get; set; }
         public int Limit { get; set; }
-        public Messages.TLArchivedStickers Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Masks ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -47,7 +49,7 @@ namespace TgSharp.TL.Messages
             bw.Write(Limit);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (Messages.TLArchivedStickers)ObjectUtils.DeserializeObject(br);
         }

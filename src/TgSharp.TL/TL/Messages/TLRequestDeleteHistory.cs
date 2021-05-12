@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Messages
 {
     [TLObject(469850889)]
-    public class TLRequestDeleteHistory : TLMethod
+    public class TLRequestDeleteHistory : TLMethod<Messages.TLAffectedHistory>
     {
         public override int Constructor
         {
@@ -25,11 +25,14 @@ namespace TgSharp.TL.Messages
         public bool Revoke { get; set; }
         public TLAbsInputPeer Peer { get; set; }
         public int MaxId { get; set; }
-        public Messages.TLAffectedHistory Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = JustClear ? (Flags | 1) : (Flags & ~1);
+Flags = Revoke ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -49,7 +52,7 @@ namespace TgSharp.TL.Messages
             bw.Write(MaxId);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (Messages.TLAffectedHistory)ObjectUtils.DeserializeObject(br);
         }

@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1465219162)]
+    [TLObject(-1159937629)]
     public class TLPollResults : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return 1465219162;
+                return -1159937629;
             }
         }
 
@@ -24,10 +24,20 @@ namespace TgSharp.TL
         public bool Min { get; set; }
         public TLVector<TLPollAnswerVoters> Results { get; set; }
         public int? TotalVoters { get; set; }
+        public TLVector<int> RecentVoters { get; set; }
+        public string Solution { get; set; }
+        public TLVector<TLAbsMessageEntity> SolutionEntities { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Min ? (Flags | 1) : (Flags & ~1);
+Flags = Results != null ? (Flags | 2) : (Flags & ~2);
+Flags = TotalVoters != null ? (Flags | 4) : (Flags & ~4);
+Flags = RecentVoters != null ? (Flags | 8) : (Flags & ~8);
+Flags = Solution != null ? (Flags | 16) : (Flags & ~16);
+Flags = SolutionEntities != null ? (Flags | 16) : (Flags & ~16);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -44,6 +54,21 @@ namespace TgSharp.TL
             else
                 TotalVoters = null;
 
+            if ((Flags & 8) != 0)
+                RecentVoters = (TLVector<int>)ObjectUtils.DeserializeVector<int>(br);
+            else
+                RecentVoters = null;
+
+            if ((Flags & 16) != 0)
+                Solution = StringUtil.Deserialize(br);
+            else
+                Solution = null;
+
+            if ((Flags & 16) != 0)
+                SolutionEntities = (TLVector<TLAbsMessageEntity>)ObjectUtils.DeserializeVector<TLAbsMessageEntity>(br);
+            else
+                SolutionEntities = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -54,6 +79,12 @@ namespace TgSharp.TL
                 ObjectUtils.SerializeObject(Results, bw);
             if ((Flags & 4) != 0)
                 bw.Write(TotalVoters.Value);
+            if ((Flags & 8) != 0)
+                ObjectUtils.SerializeObject(RecentVoters, bw);
+            if ((Flags & 16) != 0)
+                StringUtil.Serialize(Solution, bw);
+            if ((Flags & 16) != 0)
+                ObjectUtils.SerializeObject(SolutionEntities, bw);
         }
     }
 }

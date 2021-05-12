@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1444661369)]
-    public class TLContactBlocked : TLObject
+    [TLObject(909603888)]
+    public class TLMessageUserVoteInputOption : TLAbsMessageUserVote
     {
         public override int Constructor
         {
             get
             {
-                return 1444661369;
+                return 909603888;
             }
         }
 

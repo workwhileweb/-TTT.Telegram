@@ -1,4 +1,7 @@
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Security;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 
@@ -216,8 +219,6 @@ namespace TgSharp.Core.MTProto.Crypto
                 result[i] = (byte)(buffer1[i] ^ buffer2[i]);
             return result;
         }
-
-
     }
 
 
@@ -576,7 +577,8 @@ namespace TgSharp.Core.MTProto.Crypto
             {
                 EncryptBlock(WorkingKey);
             }
-            else {
+            else
+            {
                 DecryptBlock(WorkingKey);
             }
 

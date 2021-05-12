@@ -9,20 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-519195831)]
-    public class TLUpdateChatPinnedMessage : TLAbsUpdate
+    [TLObject(-1392895362)]
+    public class TLInputMessageCallbackQuery : TLAbsInputMessage
     {
         public override int Constructor
         {
             get
             {
-                return -519195831;
+                return -1392895362;
             }
         }
 
-        public int ChatId { get; set; }
         public int Id { get; set; }
-        public int Version { get; set; }
+        public long QueryId { get; set; }
 
         public void ComputeFlags()
         {
@@ -31,17 +30,15 @@ namespace TgSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
             Id = br.ReadInt32();
-            Version = br.ReadInt32();
+            QueryId = br.ReadInt64();
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(ChatId);
             bw.Write(Id);
-            bw.Write(Version);
+            bw.Write(QueryId);
         }
     }
 }

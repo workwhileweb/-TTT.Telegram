@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1212395773)]
-    public class TLInputMediaGifExternal : TLAbsInputMedia
+    [TLObject(-177732982)]
+    public class TLBankCardOpenUrl : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return 1212395773;
+                return -177732982;
             }
         }
 
         public string Url { get; set; }
-        public string Q { get; set; }
+        public string Name { get; set; }
 
         public void ComputeFlags()
         {
@@ -31,14 +31,14 @@ namespace TgSharp.TL
         public override void DeserializeBody(BinaryReader br)
         {
             Url = StringUtil.Deserialize(br);
-            Q = StringUtil.Deserialize(br);
+            Name = StringUtil.Deserialize(br);
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
             StringUtil.Serialize(Url, bw);
-            StringUtil.Serialize(Q, bw);
+            StringUtil.Serialize(Name, bw);
         }
     }
 }

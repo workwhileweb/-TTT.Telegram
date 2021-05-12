@@ -29,7 +29,10 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = RoundMessage ? (Flags | 1) : (Flags & ~1);
+Flags = SupportsStreaming ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

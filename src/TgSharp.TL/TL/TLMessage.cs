@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(1160515173)]
+    [TLObject(1487813065)]
     public class TLMessage : TLAbsMessage
     {
         public override int Constructor
         {
             get
             {
-                return 1160515173;
+                return 1487813065;
             }
         }
 
@@ -29,18 +29,21 @@ namespace TgSharp.TL
         public bool FromScheduled { get; set; }
         public bool Legacy { get; set; }
         public bool EditHide { get; set; }
+        public bool Pinned { get; set; }
         public int Id { get; set; }
-        public int? FromId { get; set; }
-        public TLAbsPeer ToId { get; set; }
+        public TLAbsPeer FromId { get; set; }
+        public TLAbsPeer PeerId { get; set; }
         public TLMessageFwdHeader FwdFrom { get; set; }
         public int? ViaBotId { get; set; }
-        public int? ReplyToMsgId { get; set; }
+        public TLMessageReplyHeader ReplyTo { get; set; }
         public int Date { get; set; }
         public string Message { get; set; }
         public TLAbsMessageMedia Media { get; set; }
         public TLAbsReplyMarkup ReplyMarkup { get; set; }
         public TLVector<TLAbsMessageEntity> Entities { get; set; }
         public int? Views { get; set; }
+        public int? Forwards { get; set; }
+        public TLMessageReplies Replies { get; set; }
         public int? EditDate { get; set; }
         public string PostAuthor { get; set; }
         public long? GroupedId { get; set; }
@@ -48,7 +51,31 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Out ? (Flags | 2) : (Flags & ~2);
+Flags = Mentioned ? (Flags | 16) : (Flags & ~16);
+Flags = MediaUnread ? (Flags | 32) : (Flags & ~32);
+Flags = Silent ? (Flags | 8192) : (Flags & ~8192);
+Flags = Post ? (Flags | 16384) : (Flags & ~16384);
+Flags = FromScheduled ? (Flags | 262144) : (Flags & ~262144);
+Flags = Legacy ? (Flags | 524288) : (Flags & ~524288);
+Flags = EditHide ? (Flags | 2097152) : (Flags & ~2097152);
+Flags = Pinned ? (Flags | 16777216) : (Flags & ~16777216);
+Flags = FromId != null ? (Flags | 256) : (Flags & ~256);
+Flags = FwdFrom != null ? (Flags | 4) : (Flags & ~4);
+Flags = ViaBotId != null ? (Flags | 2048) : (Flags & ~2048);
+Flags = ReplyTo != null ? (Flags | 8) : (Flags & ~8);
+Flags = Media != null ? (Flags | 512) : (Flags & ~512);
+Flags = ReplyMarkup != null ? (Flags | 64) : (Flags & ~64);
+Flags = Entities != null ? (Flags | 128) : (Flags & ~128);
+Flags = Views != null ? (Flags | 1024) : (Flags & ~1024);
+Flags = Forwards != null ? (Flags | 1024) : (Flags & ~1024);
+Flags = Replies != null ? (Flags | 8388608) : (Flags & ~8388608);
+Flags = EditDate != null ? (Flags | 32768) : (Flags & ~32768);
+Flags = PostAuthor != null ? (Flags | 65536) : (Flags & ~65536);
+Flags = GroupedId != null ? (Flags | 131072) : (Flags & ~131072);
+Flags = RestrictionReason != null ? (Flags | 4194304) : (Flags & ~4194304);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -62,13 +89,14 @@ namespace TgSharp.TL
             FromScheduled = (Flags & 262144) != 0;
             Legacy = (Flags & 524288) != 0;
             EditHide = (Flags & 2097152) != 0;
+            Pinned = (Flags & 16777216) != 0;
             Id = br.ReadInt32();
             if ((Flags & 256) != 0)
-                FromId = br.ReadInt32();
+                FromId = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
             else
                 FromId = null;
 
-            ToId = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
+            PeerId = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
             if ((Flags & 4) != 0)
                 FwdFrom = (TLMessageFwdHeader)ObjectUtils.DeserializeObject(br);
             else
@@ -80,9 +108,9 @@ namespace TgSharp.TL
                 ViaBotId = null;
 
             if ((Flags & 8) != 0)
-                ReplyToMsgId = br.ReadInt32();
+                ReplyTo = (TLMessageReplyHeader)ObjectUtils.DeserializeObject(br);
             else
-                ReplyToMsgId = null;
+                ReplyTo = null;
 
             Date = br.ReadInt32();
             Message = StringUtil.Deserialize(br);
@@ -105,6 +133,16 @@ namespace TgSharp.TL
                 Views = br.ReadInt32();
             else
                 Views = null;
+
+            if ((Flags & 1024) != 0)
+                Forwards = br.ReadInt32();
+            else
+                Forwards = null;
+
+            if ((Flags & 8388608) != 0)
+                Replies = (TLMessageReplies)ObjectUtils.DeserializeObject(br);
+            else
+                Replies = null;
 
             if ((Flags & 32768) != 0)
                 EditDate = br.ReadInt32();
@@ -134,14 +172,14 @@ namespace TgSharp.TL
             bw.Write(Flags);
             bw.Write(Id);
             if ((Flags & 256) != 0)
-                bw.Write(FromId.Value);
-            ObjectUtils.SerializeObject(ToId, bw);
+                ObjectUtils.SerializeObject(FromId, bw);
+            ObjectUtils.SerializeObject(PeerId, bw);
             if ((Flags & 4) != 0)
                 ObjectUtils.SerializeObject(FwdFrom, bw);
             if ((Flags & 2048) != 0)
                 bw.Write(ViaBotId.Value);
             if ((Flags & 8) != 0)
-                bw.Write(ReplyToMsgId.Value);
+                ObjectUtils.SerializeObject(ReplyTo, bw);
             bw.Write(Date);
             StringUtil.Serialize(Message, bw);
             if ((Flags & 512) != 0)
@@ -152,6 +190,10 @@ namespace TgSharp.TL
                 ObjectUtils.SerializeObject(Entities, bw);
             if ((Flags & 1024) != 0)
                 bw.Write(Views.Value);
+            if ((Flags & 1024) != 0)
+                bw.Write(Forwards.Value);
+            if ((Flags & 8388608) != 0)
+                ObjectUtils.SerializeObject(Replies, bw);
             if ((Flags & 32768) != 0)
                 bw.Write(EditDate.Value);
             if ((Flags & 65536) != 0)

@@ -9,19 +9,19 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-2131957734)]
-    public class TLUpdateUserBlocked : TLAbsUpdate
+    [TLObject(831924812)]
+    public class TLStatsGroupTopInviter : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -2131957734;
+                return 831924812;
             }
         }
 
         public int UserId { get; set; }
-        public bool Blocked { get; set; }
+        public int Invitations { get; set; }
 
         public void ComputeFlags()
         {
@@ -31,14 +31,14 @@ namespace TgSharp.TL
         public override void DeserializeBody(BinaryReader br)
         {
             UserId = br.ReadInt32();
-            Blocked = BoolUtil.Deserialize(br);
+            Invitations = br.ReadInt32();
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
             bw.Write(UserId);
-            BoolUtil.Serialize(Blocked, bw);
+            bw.Write(Invitations);
         }
     }
 }

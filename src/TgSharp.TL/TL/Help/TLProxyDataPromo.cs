@@ -7,21 +7,20 @@ using System.Threading.Tasks;
 
 using TgSharp.TL;
 
-namespace TgSharp.TL.Help
+namespace TgSharp.TL.Messages
 {
-    [TLObject(737668643)]
-    public class TLProxyDataPromo : TLAbsProxyData
+    [TLObject(-1228606141)]
+    public class TLMessageViews : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return 737668643;
+                return -1228606141;
             }
         }
 
-        public int Expires { get; set; }
-        public TLAbsPeer Peer { get; set; }
+        public TLVector<TLMessageViews> Views { get; set; }
         public TLVector<TLAbsChat> Chats { get; set; }
         public TLVector<TLAbsUser> Users { get; set; }
 
@@ -32,8 +31,7 @@ namespace TgSharp.TL.Help
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Expires = br.ReadInt32();
-            Peer = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
+            Views = (TLVector<TLMessageViews>)ObjectUtils.DeserializeVector<TLMessageViews>(br);
             Chats = (TLVector<TLAbsChat>)ObjectUtils.DeserializeVector<TLAbsChat>(br);
             Users = (TLVector<TLAbsUser>)ObjectUtils.DeserializeVector<TLAbsUser>(br);
         }
@@ -41,8 +39,7 @@ namespace TgSharp.TL.Help
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(Expires);
-            ObjectUtils.SerializeObject(Peer, bw);
+            ObjectUtils.SerializeObject(Views, bw);
             ObjectUtils.SerializeObject(Chats, bw);
             ObjectUtils.SerializeObject(Users, bw);
         }

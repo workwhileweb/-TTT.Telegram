@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-1366746132)]
+    [TLObject(-1738178803)]
     public class TLPage : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -1366746132;
+                return -1738178803;
             }
         }
 
@@ -28,10 +28,16 @@ namespace TgSharp.TL
         public TLVector<TLAbsPageBlock> Blocks { get; set; }
         public TLVector<TLAbsPhoto> Photos { get; set; }
         public TLVector<TLAbsDocument> Documents { get; set; }
+        public int? Views { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Part ? (Flags | 1) : (Flags & ~1);
+Flags = Rtl ? (Flags | 2) : (Flags & ~2);
+Flags = V2 ? (Flags | 4) : (Flags & ~4);
+Flags = Views != null ? (Flags | 8) : (Flags & ~8);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -44,6 +50,11 @@ namespace TgSharp.TL
             Blocks = (TLVector<TLAbsPageBlock>)ObjectUtils.DeserializeVector<TLAbsPageBlock>(br);
             Photos = (TLVector<TLAbsPhoto>)ObjectUtils.DeserializeVector<TLAbsPhoto>(br);
             Documents = (TLVector<TLAbsDocument>)ObjectUtils.DeserializeVector<TLAbsDocument>(br);
+            if ((Flags & 8) != 0)
+                Views = br.ReadInt32();
+            else
+                Views = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -54,6 +65,8 @@ namespace TgSharp.TL
             ObjectUtils.SerializeObject(Blocks, bw);
             ObjectUtils.SerializeObject(Photos, bw);
             ObjectUtils.SerializeObject(Documents, bw);
+            if ((Flags & 8) != 0)
+                bw.Write(Views.Value);
         }
     }
 }

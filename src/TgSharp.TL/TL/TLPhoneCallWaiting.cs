@@ -32,13 +32,16 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Video ? (Flags | 64) : (Flags & ~64);
+Flags = ReceiveDate != null ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
             Flags = br.ReadInt32();
-            Video = (Flags & 32) != 0;
+            Video = (Flags & 64) != 0;
             Id = br.ReadInt64();
             AccessHash = br.ReadInt64();
             Date = br.ReadInt32();

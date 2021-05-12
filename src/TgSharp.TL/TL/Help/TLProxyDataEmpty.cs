@@ -9,14 +9,14 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Help
 {
-    [TLObject(-526508104)]
-    public class TLProxyDataEmpty : TLAbsProxyData
+    [TLObject(-1728664459)]
+    public class TLPromoDataEmpty : TLAbsPromoData
     {
         public override int Constructor
         {
             get
             {
-                return -526508104;
+                return -1728664459;
             }
         }
 

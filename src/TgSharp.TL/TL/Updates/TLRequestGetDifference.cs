@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Updates
 {
     [TLObject(630429265)]
-    public class TLRequestGetDifference : TLMethod
+    public class TLRequestGetDifference : TLMethod<Updates.TLAbsDifference>
     {
         public override int Constructor
         {
@@ -25,11 +25,13 @@ namespace TgSharp.TL.Updates
         public int? PtsTotalLimit { get; set; }
         public int Date { get; set; }
         public int Qts { get; set; }
-        public Updates.TLAbsDifference Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = PtsTotalLimit != null ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -56,7 +58,7 @@ namespace TgSharp.TL.Updates
             bw.Write(Qts);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (Updates.TLAbsDifference)ObjectUtils.DeserializeObject(br);
         }

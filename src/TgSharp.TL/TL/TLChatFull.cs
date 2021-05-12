@@ -35,7 +35,14 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = CanSetUsername ? (Flags | 128) : (Flags & ~128);
+Flags = HasScheduled ? (Flags | 256) : (Flags & ~256);
+Flags = ChatPhoto != null ? (Flags | 4) : (Flags & ~4);
+Flags = BotInfo != null ? (Flags | 8) : (Flags & ~8);
+Flags = PinnedMsgId != null ? (Flags | 64) : (Flags & ~64);
+Flags = FolderId != null ? (Flags | 2048) : (Flags & ~2048);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

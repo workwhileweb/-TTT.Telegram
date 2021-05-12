@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Messages
 {
     [TLObject(-1489903017)]
-    public class TLRequestToggleDialogPin : TLMethod
+    public class TLRequestToggleDialogPin : TLMethod<bool>
     {
         public override int Constructor
         {
@@ -23,11 +23,13 @@ namespace TgSharp.TL.Messages
         public int Flags { get; set; }
         public bool Pinned { get; set; }
         public TLAbsInputDialogPeer Peer { get; set; }
-        public bool Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Pinned ? (Flags | 1) : (Flags & ~1);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -44,7 +46,7 @@ namespace TgSharp.TL.Messages
             ObjectUtils.SerializeObject(Peer, bw);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
         }

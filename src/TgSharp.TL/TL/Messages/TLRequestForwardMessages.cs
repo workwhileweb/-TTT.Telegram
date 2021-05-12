@@ -10,7 +10,7 @@ using TgSharp.TL;
 namespace TgSharp.TL.Messages
 {
     [TLObject(-637606386)]
-    public class TLRequestForwardMessages : TLMethod
+    public class TLRequestForwardMessages : TLMethod<TLAbsUpdates>
     {
         public override int Constructor
         {
@@ -24,17 +24,21 @@ namespace TgSharp.TL.Messages
         public bool Silent { get; set; }
         public bool Background { get; set; }
         public bool WithMyScore { get; set; }
-        public bool Grouped { get; set; }
         public TLAbsInputPeer FromPeer { get; set; }
         public TLVector<int> Id { get; set; }
         public TLVector<long> RandomId { get; set; }
         public TLAbsInputPeer ToPeer { get; set; }
         public int? ScheduleDate { get; set; }
-        public TLAbsUpdates Response { get; set; }
+        
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Silent ? (Flags | 32) : (Flags & ~32);
+Flags = Background ? (Flags | 64) : (Flags & ~64);
+Flags = WithMyScore ? (Flags | 256) : (Flags & ~256);
+Flags = ScheduleDate != null ? (Flags | 1024) : (Flags & ~1024);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
@@ -43,7 +47,6 @@ namespace TgSharp.TL.Messages
             Silent = (Flags & 32) != 0;
             Background = (Flags & 64) != 0;
             WithMyScore = (Flags & 256) != 0;
-            Grouped = (Flags & 512) != 0;
             FromPeer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
             Id = (TLVector<int>)ObjectUtils.DeserializeVector<int>(br);
             RandomId = (TLVector<long>)ObjectUtils.DeserializeVector<long>(br);
@@ -67,7 +70,7 @@ namespace TgSharp.TL.Messages
                 bw.Write(ScheduleDate.Value);
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
             Response = (TLAbsUpdates)ObjectUtils.DeserializeObject(br);
         }

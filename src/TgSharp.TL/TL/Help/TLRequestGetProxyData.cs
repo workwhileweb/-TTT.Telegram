@@ -9,18 +9,18 @@ using TgSharp.TL;
 
 namespace TgSharp.TL.Help
 {
-    [TLObject(1031231713)]
-    public class TLRequestGetProxyData : TLMethod
+    [TLObject(-1063816159)]
+    public class TLRequestGetPromoData : TLMethod<Help.TLAbsPromoData>
     {
         public override int Constructor
         {
             get
             {
-                return 1031231713;
+                return -1063816159;
             }
         }
 
-        public Help.TLAbsProxyData Response { get; set; }
+        
 
         public void ComputeFlags()
         {
@@ -38,9 +38,9 @@ namespace TgSharp.TL.Help
             // do nothing else
         }
 
-        public override void DeserializeResponse(BinaryReader br)
+        protected override void DeserializeResponse(BinaryReader br)
         {
-            Response = (Help.TLAbsProxyData)ObjectUtils.DeserializeObject(br);
+            Response = (Help.TLAbsPromoData)ObjectUtils.DeserializeObject(br);
         }
     }
 }

@@ -29,7 +29,10 @@ namespace TgSharp.TL.Help
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Popup ? (Flags | 1) : (Flags & ~1);
+Flags = MinAgeConfirm != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

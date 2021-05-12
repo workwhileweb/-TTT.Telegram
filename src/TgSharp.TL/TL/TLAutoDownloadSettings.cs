@@ -32,7 +32,12 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Disabled ? (Flags | 1) : (Flags & ~1);
+Flags = VideoPreloadLarge ? (Flags | 2) : (Flags & ~2);
+Flags = AudioPreloadNext ? (Flags | 4) : (Flags & ~4);
+Flags = PhonecallsLessData ? (Flags | 8) : (Flags & ~8);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

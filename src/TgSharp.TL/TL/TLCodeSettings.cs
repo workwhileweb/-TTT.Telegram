@@ -27,7 +27,11 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = AllowFlashcall ? (Flags | 1) : (Flags & ~1);
+Flags = CurrentNumber ? (Flags | 2) : (Flags & ~2);
+Flags = AllowAppHash ? (Flags | 16) : (Flags & ~16);
+
         }
 
         public override void DeserializeBody(BinaryReader br)

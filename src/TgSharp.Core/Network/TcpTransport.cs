@@ -1,124 +1,163 @@
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using TgSharp.Core.MTProto.Crypto;
+using TcpClient = NetCoreServer.TcpClient;
 
 namespace TgSharp.Core.Network
 {
-    public delegate TcpClient TcpClientConnectionHandler(string address, int port);
-
-    public class TcpTransport : IDisposable
+    public class TcpTransport : TcpClient, ITransport
     {
-        private readonly TcpClient tcpClient;
-        private readonly NetworkStream stream;
-        private int sendCounter = 0;
+        
+        // STATE Information to handle message framing
+        private int packet_size = 0;
+        private int packet_read = 0;
 
-        public TcpTransport(string address, int port, TcpClientConnectionHandler handler = null)
+        private int packet_header_read = 0;
+        private byte[] packet_header;
+        private byte[] packet;
+        private TaskCompletionSource<bool> connectCompletion;
+
+        public TcpTransport(string address, int port) : base(address, port)
         {
-            if (String.IsNullOrEmpty (address))
-                throw new ArgumentNullException (nameof (address));
-
-            if (handler == null)
-            {
-                var ipAddress = IPAddress.Parse(address);
-                var endpoint = new IPEndPoint(ipAddress, port);
-
-                tcpClient = new TcpClient(ipAddress.AddressFamily);
-
-                try {
-                    tcpClient.Connect (endpoint);
-                } catch (Exception ex) {
-                    throw new Exception ($"Problem when trying to connect to {endpoint}; either there's no internet connection or the IP address version is not compatible (if the latter, consider using DataCenterIPVersion enum)",
-                                         ex);
-                }
-            }
-            else
-                tcpClient = handler(address, port);
-
-            if (tcpClient.Connected)
-            {
-                stream = tcpClient.GetStream();
-            }
         }
 
-        public async Task Send(byte[] packet, CancellationToken token = default(CancellationToken))
+        public Task ConnectAsync()
         {
-            if (!tcpClient.Connected)
+            connectCompletion = new TaskCompletionSource<bool>();
+            base.ConnectAsync();
+            return connectCompletion.Task;
+        }
+
+        public void Send(byte[] packet)
+        {
+            if (!IsConnected)
                 throw new InvalidOperationException("Client not connected to server.");
 
-            var tcpMessage = new TcpMessage(sendCounter, packet);
+            var tcpMessage = new TcpMessage(sendCounter, packet).Encode();
 
-            await stream.WriteAsync(tcpMessage.Encode(), 0, tcpMessage.Encode().Length, token).ConfigureAwait(false);
+            Debug.WriteLine("Sent data: " + BitConverter.ToString(tcpMessage));
+
+            SendAsync(tcpMessage, 0, tcpMessage.Length);
             sendCounter++;
         }
 
-        public async Task<TcpMessage> Receive(CancellationToken token = default(CancellationToken))
+        protected override void OnReceived(byte[] buffer, long offset, long size)
         {
-            var packetLengthLength = 4;
-            var packetLengthBytes = new byte[packetLengthLength];
-            var bytesRead = await stream.ReadAsync(packetLengthBytes, 0, packetLengthLength, token).ConfigureAwait(false);
-            if (bytesRead != packetLengthLength)
-                throw new InvalidOperationException($"Couldn't read the packet length (was {bytesRead}, expected {packetLengthLength})");
-            int packetLength = BitConverter.ToInt32(packetLengthBytes, 0);
+            Debug.WriteLine("Received data chunk: " + BitConverter.ToString(buffer, (int)offset, (int)size));
 
-            var seqBytes = new byte[4];
-            if (await stream.ReadAsync(seqBytes, 0, 4, token).ConfigureAwait(false) != 4)
-                throw new InvalidOperationException("Couldn't read the sequence");
-            int seq = BitConverter.ToInt32(seqBytes, 0);
-
-            int readBytes = 0;
-            var body = new byte[packetLength - 12];
-            int neededToRead = packetLength - 12;
-
-            do
+            while (offset < size)
             {
-                var bodyByte = new byte[packetLength - 12];
-                var availableBytes = await stream.ReadAsync(bodyByte, 0, neededToRead, token).ConfigureAwait(false);
-                neededToRead -= availableBytes;
-                Buffer.BlockCopy(bodyByte, 0, body, readBytes, availableBytes);
-                readBytes += availableBytes;
+                if (packet_header_read != 4 && packet == null)
+                {
+                    if (packet_header == null) packet_header = new byte[4];
+                    if (4 > packet_header_read && size > offset && packet_header != null)
+                    {
+                        int open = 4 - packet_header_read;
+
+                        if (offset + open > size)
+                        {
+                            Buffer.BlockCopy(buffer, (int)offset, packet_header, packet_header_read, (int)(size - offset));
+
+                            packet_header_read += (int)size - (int)offset;
+                            offset = size;
+                        }
+                        else
+                        {
+                            Buffer.BlockCopy(buffer, (int)offset, packet_header, packet_header_read, open);
+
+                            offset += open;
+
+                            packet_size = BitConverter.ToInt32(packet_header, 0);
+
+                            packet_read = 0;
+                            packet = new byte[packet_size];
+                        }
+                    }
+                }
+
+                if (packet_size > packet_read && size > offset)
+                {
+                    var packet_open = packet_size - packet_read;
+
+                    // Not full message in buffer
+                    if (offset + packet_open > size)
+                    {
+                        // Copy rest to packet
+                        Buffer.BlockCopy(buffer, (int)offset, packet, packet_read, (int)(size - offset));
+                        // Array.Copy(buffer,offset,packet,packet_read,size-offset);
+                        packet_read += (int)(size - offset);
+                        offset = size;
+                    }
+                    // Buffer long enough
+                    else
+                    {
+                        // Copy to the packet
+                        Buffer.BlockCopy(buffer, (int)offset, packet, packet_read, packet_open);
+                        // Array.Copy(buffer,offset,packet,packet_read,packet_open);
+                        offset += packet_open;
+
+                        // The total message has been received and will be processed within HandlePacket(byte[] data)... 
+                        DecodePacket(packet_header, packet);
+
+                        packet = null;
+                        packet_size = 0;
+                        packet_read = 0;
+                        packet_header = null;
+                        packet_header_read = 0;
+                    }
+                }
             }
-            while (readBytes != packetLength - 12);
-
-            var crcBytes = new byte[4];
-            if (await stream.ReadAsync(crcBytes, 0, 4, token).ConfigureAwait(false) != 4)
-                throw new InvalidOperationException("Couldn't read the crc");
-
-            byte[] rv = new byte[packetLengthBytes.Length + seqBytes.Length + body.Length];
-
-            Buffer.BlockCopy(packetLengthBytes, 0, rv, 0, packetLengthBytes.Length);
-            Buffer.BlockCopy(seqBytes, 0, rv, packetLengthBytes.Length, seqBytes.Length);
-            Buffer.BlockCopy(body, 0, rv, packetLengthBytes.Length + seqBytes.Length, body.Length);
-            var crc32 = new Crc32();
-            var computedChecksum = crc32.ComputeHash(rv).Reverse();
-
-            if (!crcBytes.SequenceEqual(computedChecksum))
-            {
-                throw new InvalidOperationException("invalid checksum! skip");
-            }
-
-            return new TcpMessage(seq, body);
         }
 
-        public bool IsConnected
+        private void DecodePacket(byte[] header, byte[] packet)
         {
-            get
-            {
-                return this.tcpClient.Connected;
-            }
+            //TODO: maybe use TcpMessage.Decode to avoid duplication
+            var tcpMessage =  new TcpMessage (-1, packet);
+
+            var authKeyId = BitConverter.ToInt64(tcpMessage.Body, 0);
+
+            if (authKeyId == 0)
+                OnUnencryptedMessage?.Invoke(tcpMessage);
+            else
+                OnEncryptedMessage?.Invoke(tcpMessage);
         }
 
-
-        public void Dispose()
+        protected override void OnConnected()
         {
-            if (tcpClient.Connected)
-            {
-                stream.Close();
-                tcpClient.Close();
-            }
+            base.ReceiveAsync();
+            base.Send(BitConverter.GetBytes(0xeeeeeeee));
+            connectCompletion?.SetResult(true);
+            connectCompletion = null;
+            
+        }
+
+        protected override void OnError(SocketError error)
+        {
+            connectCompletion?.SetException(new Exception(error.ToString()));
+            base.OnError(error);
+        }
+
+        protected override void OnDisconnected()
+        {
+            ReconnectAsync();
+            base.OnDisconnected();
+
+        }
+
+        protected override void OnSent(long sent, long pending)
+        {
+            base.OnSent(sent, pending);
+        }
+
+        protected override void OnEmpty()
+        {
+            base.OnEmpty();
         }
     }
 }

@@ -22,6 +22,7 @@ namespace TgSharp.TL
 
         public int Flags { get; set; }
         public bool NosoundVideo { get; set; }
+        public bool ForceFile { get; set; }
         public TLAbsInputFile File { get; set; }
         public TLAbsInputFile Thumb { get; set; }
         public string MimeType { get; set; }
@@ -31,13 +32,20 @@ namespace TgSharp.TL
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = NosoundVideo ? (Flags | 8) : (Flags & ~8);
+Flags = ForceFile ? (Flags | 16) : (Flags & ~16);
+Flags = Thumb != null ? (Flags | 4) : (Flags & ~4);
+Flags = Stickers != null ? (Flags | 1) : (Flags & ~1);
+Flags = TtlSeconds != null ? (Flags | 2) : (Flags & ~2);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
             Flags = br.ReadInt32();
             NosoundVideo = (Flags & 8) != 0;
+            ForceFile = (Flags & 16) != 0;
             File = (TLAbsInputFile)ObjectUtils.DeserializeObject(br);
             if ((Flags & 4) != 0)
                 Thumb = (TLAbsInputFile)ObjectUtils.DeserializeObject(br);

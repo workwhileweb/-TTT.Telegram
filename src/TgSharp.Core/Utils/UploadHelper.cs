@@ -101,7 +101,7 @@ namespace TgSharp.Core.Utils
                         FilePart = partNumber,
                         Bytes = part,
                         FileTotalParts = partsCount
-                    }, token).ConfigureAwait(false);
+                    }).ConfigureAwait(false);
                 }
                 else
                 {
@@ -110,7 +110,7 @@ namespace TgSharp.Core.Utils
                         FileId = file_id,
                         FilePart = partNumber,
                         Bytes = part
-                    }, token).ConfigureAwait(false);
+                    }).ConfigureAwait(false);
                 }
                 partNumber++;
             }

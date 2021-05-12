@@ -9,37 +9,48 @@ using TgSharp.TL;
 
 namespace TgSharp.TL
 {
-    [TLObject(-332168592)]
+    [TLObject(1601666510)]
     public class TLMessageFwdHeader : TLObject
     {
         public override int Constructor
         {
             get
             {
-                return -332168592;
+                return 1601666510;
             }
         }
 
         public int Flags { get; set; }
-        public int? FromId { get; set; }
+        public bool Imported { get; set; }
+        public TLAbsPeer FromId { get; set; }
         public string FromName { get; set; }
         public int Date { get; set; }
-        public int? ChannelId { get; set; }
         public int? ChannelPost { get; set; }
         public string PostAuthor { get; set; }
         public TLAbsPeer SavedFromPeer { get; set; }
         public int? SavedFromMsgId { get; set; }
+        public string PsaType { get; set; }
 
         public void ComputeFlags()
         {
-            // do nothing
+            Flags = 0;
+Flags = Imported ? (Flags | 128) : (Flags & ~128);
+Flags = FromId != null ? (Flags | 1) : (Flags & ~1);
+Flags = FromName != null ? (Flags | 32) : (Flags & ~32);
+Flags = ChannelPost != null ? (Flags | 4) : (Flags & ~4);
+Flags = PostAuthor != null ? (Flags | 8) : (Flags & ~8);
+Flags = SavedFromPeer != null ? (Flags | 16) : (Flags & ~16);
+Flags = SavedFromMsgId != null ? (Flags | 16) : (Flags & ~16);
+Flags = PsaType != null ? (Flags | 64) : (Flags & ~64);
+
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
             Flags = br.ReadInt32();
+            Imported = (Flags & 128) != 0;
             if ((Flags & 1) != 0)
-                FromId = br.ReadInt32();
+                FromId = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
             else
                 FromId = null;
 
@@ -49,11 +60,6 @@ namespace TgSharp.TL
                 FromName = null;
 
             Date = br.ReadInt32();
-            if ((Flags & 2) != 0)
-                ChannelId = br.ReadInt32();
-            else
-                ChannelId = null;
-
             if ((Flags & 4) != 0)
                 ChannelPost = br.ReadInt32();
             else
@@ -74,6 +80,11 @@ namespace TgSharp.TL
             else
                 SavedFromMsgId = null;
 
+            if ((Flags & 64) != 0)
+                PsaType = StringUtil.Deserialize(br);
+            else
+                PsaType = null;
+
         }
 
         public override void SerializeBody(BinaryWriter bw)
@@ -81,12 +92,10 @@ namespace TgSharp.TL
             bw.Write(Constructor);
             bw.Write(Flags);
             if ((Flags & 1) != 0)
-                bw.Write(FromId.Value);
+                ObjectUtils.SerializeObject(FromId, bw);
             if ((Flags & 32) != 0)
                 StringUtil.Serialize(FromName, bw);
             bw.Write(Date);
-            if ((Flags & 2) != 0)
-                bw.Write(ChannelId.Value);
             if ((Flags & 4) != 0)
                 bw.Write(ChannelPost.Value);
             if ((Flags & 8) != 0)
@@ -95,6 +104,8 @@ namespace TgSharp.TL
                 ObjectUtils.SerializeObject(SavedFromPeer, bw);
             if ((Flags & 16) != 0)
                 bw.Write(SavedFromMsgId.Value);
+            if ((Flags & 64) != 0)
+                StringUtil.Serialize(PsaType, bw);
         }
     }
 }
