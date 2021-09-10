@@ -1,0 +1,274 @@
+2021-09-10 20:14:25.926 +08:00 [INF] Loaded 5 extensions
+2021-09-10 20:14:27.397 +08:00 [INF] MSBuild registered from C:\Program Files\dotnet\sdk\5.0.400\
+2021-09-10 20:14:28.181 +08:00 [INF] Found Visual Studio v16.11.31605.320 [C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise]
+2021-09-10 20:14:28.196 +08:00 [INF] Found Visual Studio v15.9.28307.1622 [C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools]
+2021-09-10 20:14:31.027 +08:00 [INF] Initializing upgrade step Select an entrypoint
+2021-09-10 20:15:52.616 +08:00 [INF] Applying upgrade step Select an entrypoint
+2021-09-10 20:15:57.431 +08:00 [INF] Upgrade step Select an entrypoint applied successfully
+2021-09-10 20:15:59.590 +08:00 [INF] Initializing upgrade step Select project to upgrade
+2021-09-10 20:16:02.056 +08:00 [INF] Applying upgrade step Select project to upgrade
+2021-09-10 20:16:03.977 +08:00 [INF] Upgrade step Select project to upgrade applied successfully
+2021-09-10 20:16:05.574 +08:00 [INF] Initializing upgrade step Back up project
+2021-09-10 20:16:07.122 +08:00 [INF] Applying upgrade step Back up project
+2021-09-10 20:16:09.051 +08:00 [INF] Backing up C:\wWw\code\TTT.Telegram\src\TgSharp.TL to C:\wWw\code\TTT.Telegram\src.backup\TgSharp.TL
+2021-09-10 20:16:18.964 +08:00 [INF] Project backed up to C:\wWw\code\TTT.Telegram\src.backup\TgSharp.TL
+2021-09-10 20:16:18.967 +08:00 [INF] Upgrade step Back up project applied successfully
+2021-09-10 20:17:07.032 +08:00 [INF] Initializing upgrade step Convert project file to SDK style
+2021-09-10 20:17:07.932 +08:00 [INF] Applying upgrade step Convert project file to SDK style
+2021-09-10 20:17:07.940 +08:00 [INF] Converting project file format with try-convert, version 0.9.232202
+2021-09-10 20:17:12.989 +08:00 [INF] [dotnet] Conversion complete!
+2021-09-10 20:17:14.349 +08:00 [INF] Project file converted successfully! The project may require additional changes to build successfully against the new .NET target.
+2021-09-10 20:17:17.639 +08:00 [INF] Upgrade step Convert project file to SDK style applied successfully
+2021-09-10 20:18:16.135 +08:00 [INF] Initializing upgrade step Clean up NuGet package references
+2021-09-10 20:18:20.539 +08:00 [INF] Reference to .NET Upgrade Assistant analyzer package (Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, version 0.3.242703) needs added
+2021-09-10 20:18:20.560 +08:00 [INF] Packages to be added: Operation { Item = Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.3.242703, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+2021-09-10 20:18:22.417 +08:00 [INF] Applying upgrade step Clean up NuGet package references
+2021-09-10 20:18:22.432 +08:00 [INF] Adding package reference: Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.3.242703
+2021-09-10 20:18:26.746 +08:00 [INF] Upgrade step Clean up NuGet package references applied successfully
+2021-09-10 20:18:28.250 +08:00 [INF] Initializing upgrade step Update TFM
+2021-09-10 20:18:28.277 +08:00 [INF] TFM needs updated to netstandard2.0
+2021-09-10 20:18:29.683 +08:00 [INF] Applying upgrade step Update TFM
+2021-09-10 20:18:33.704 +08:00 [INF] Updated TFM to netstandard2.0
+2021-09-10 20:18:33.709 +08:00 [INF] Upgrade step Update TFM applied successfully
+2021-09-10 20:18:35.638 +08:00 [INF] Initializing upgrade step Update NuGet Packages
+2021-09-10 20:18:38.794 +08:00 [INF] No package updates needed
+2021-09-10 20:18:38.801 +08:00 [INF] Initializing upgrade step Add template files
+2021-09-10 20:18:38.818 +08:00 [INF] 0 expected template items needed
+2021-09-10 20:18:38.839 +08:00 [INF] Initializing upgrade step Update source code
+2021-09-10 20:18:38.851 +08:00 [INF] Running analyzers on TgSharp.TL
+2021-09-10 20:19:03.954 +08:00 [INF] Identified 0 diagnostics in project TgSharp.TL
+2021-09-10 20:19:03.978 +08:00 [INF] Initializing upgrade step Move to next project
+2021-09-10 20:19:55.589 +08:00 [INF] Applying upgrade step Move to next project
+2021-09-10 20:19:55.599 +08:00 [INF] Upgrade step Move to next project applied successfully
+2021-09-10 20:19:57.001 +08:00 [INF] Initializing upgrade step Select project to upgrade
+2021-09-10 20:19:58.797 +08:00 [INF] Applying upgrade step Select project to upgrade
+2021-09-10 20:20:44.458 +08:00 [INF] Upgrade step Select project to upgrade applied successfully
+2021-09-10 20:20:47.142 +08:00 [INF] Initializing upgrade step Back up project
+2021-09-10 20:21:44.760 +08:00 [INF] Applying upgrade step Back up project
+2021-09-10 20:21:46.512 +08:00 [INF] Backing up C:\wWw\code\TTT.Telegram\src\TgSharp.Core to C:\wWw\code\TTT.Telegram\src.backup\TgSharp.Core
+2021-09-10 20:21:47.198 +08:00 [INF] Project backed up to C:\wWw\code\TTT.Telegram\src.backup\TgSharp.Core
+2021-09-10 20:21:47.202 +08:00 [INF] Upgrade step Back up project applied successfully
+2021-09-10 20:21:48.526 +08:00 [INF] Initializing upgrade step Convert project file to SDK style
+2021-09-10 20:21:49.706 +08:00 [INF] Applying upgrade step Convert project file to SDK style
+2021-09-10 20:21:49.712 +08:00 [INF] Converting project file format with try-convert, version 0.9.232202
+2021-09-10 20:21:53.573 +08:00 [INF] [dotnet] Conversion complete!
+2021-09-10 20:21:54.356 +08:00 [INF] Project file converted successfully! The project may require additional changes to build successfully against the new .NET target.
+2021-09-10 20:21:57.404 +08:00 [INF] Upgrade step Convert project file to SDK style applied successfully
+2021-09-10 20:22:04.327 +08:00 [INF] Initializing upgrade step Clean up NuGet package references
+2021-09-10 20:22:08.403 +08:00 [INF] Reference to .NET Upgrade Assistant analyzer package (Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, version 0.3.242703) needs added
+2021-09-10 20:22:08.411 +08:00 [INF] Packages to be added: Operation { Item = Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.3.242703, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+2021-09-10 20:22:10.487 +08:00 [INF] Applying upgrade step Clean up NuGet package references
+2021-09-10 20:22:10.497 +08:00 [INF] Adding package reference: Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.3.242703
+2021-09-10 20:22:14.546 +08:00 [INF] Upgrade step Clean up NuGet package references applied successfully
+2021-09-10 20:22:16.113 +08:00 [INF] Initializing upgrade step Update TFM
+2021-09-10 20:22:16.378 +08:00 [INF] TFM needs updated to netstandard2.0
+2021-09-10 20:22:18.190 +08:00 [INF] Applying upgrade step Update TFM
+2021-09-10 20:22:22.201 +08:00 [INF] Updated TFM to netstandard2.0
+2021-09-10 20:22:22.206 +08:00 [INF] Upgrade step Update TFM applied successfully
+2021-09-10 20:22:35.960 +08:00 [INF] Initializing upgrade step Update NuGet Packages
+2021-09-10 20:22:39.195 +08:00 [INF] Marking package Microsoft.CSharp for removal because it appears to be a transitive dependency
+2021-09-10 20:22:39.204 +08:00 [INF] Marking package System.Data.DataSetExtensions for removal because it appears to be a transitive dependency
+2021-09-10 20:22:39.214 +08:00 [INF] Packages to be removed: Operation { Item = Microsoft.CSharp, Version=4.7.0, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+Operation { Item = System.Data.DataSetExtensions, Version=4.5.0, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+2021-09-10 20:22:40.388 +08:00 [INF] Applying upgrade step Update NuGet Packages
+2021-09-10 20:22:40.396 +08:00 [INF] Removing outdated package reference: Microsoft.CSharp, Version=4.7.0
+2021-09-10 20:22:40.402 +08:00 [INF] Removing outdated package reference: System.Data.DataSetExtensions, Version=4.5.0
+2021-09-10 20:22:45.309 +08:00 [INF] Upgrade step Update NuGet Packages applied successfully
+2021-09-10 20:23:02.672 +08:00 [INF] Initializing upgrade step Add template files
+2021-09-10 20:23:02.683 +08:00 [INF] 0 expected template items needed
+2021-09-10 20:23:02.712 +08:00 [INF] Initializing upgrade step Update source code
+2021-09-10 20:23:02.716 +08:00 [INF] Running analyzers on TgSharp.Core
+2021-09-10 20:23:07.540 +08:00 [INF] Identified 0 diagnostics in project TgSharp.Core
+2021-09-10 20:23:07.555 +08:00 [INF] Initializing upgrade step Move to next project
+2021-09-10 20:23:09.286 +08:00 [INF] Applying upgrade step Move to next project
+2021-09-10 20:23:09.294 +08:00 [INF] Upgrade step Move to next project applied successfully
+2021-09-10 20:23:11.816 +08:00 [INF] Initializing upgrade step Select project to upgrade
+2021-09-10 20:23:11.824 +08:00 [INF] No projects need upgraded for selected entrypoint
+2021-09-10 20:23:11.827 +08:00 [INF] Initializing upgrade step Finalize upgrade
+2021-09-10 20:23:15.900 +08:00 [INF] Applying upgrade step Finalize upgrade
+2021-09-10 20:23:15.906 +08:00 [INF] Upgrade step Finalize upgrade applied successfully
+2021-09-10 20:23:17.173 +08:00 [INF] Upgrade has completed. Please review any changes.
+2021-09-10 20:23:21.813 +08:00 [INF] Loaded 5 extensions
+2021-09-10 20:23:23.038 +08:00 [INF] MSBuild registered from C:\Program Files\dotnet\sdk\5.0.400\
+2021-09-10 20:23:23.618 +08:00 [INF] Found Visual Studio v16.11.31605.320 [C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise]
+2021-09-10 20:23:23.627 +08:00 [INF] Found Visual Studio v15.9.28307.1622 [C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools]
+2021-09-10 20:23:27.614 +08:00 [INF] Initializing upgrade step Select an entrypoint
+2021-09-10 20:23:32.577 +08:00 [INF] Applying upgrade step Select an entrypoint
+2021-09-10 20:26:22.888 +08:00 [INF] Upgrade step Select an entrypoint applied successfully
+2021-09-10 20:26:24.801 +08:00 [INF] Initializing upgrade step Select project to upgrade
+2021-09-10 20:26:24.861 +08:00 [INF] Initializing upgrade step Back up project
+2021-09-10 20:26:25.939 +08:00 [INF] Applying upgrade step Back up project
+2021-09-10 20:26:26.888 +08:00 [INF] Backing up C:\wWw\code\TTT.Telegram\src\TgSharp.Generator to C:\wWw\code\TTT.Telegram\src.backup\TgSharp.Generator
+2021-09-10 20:26:27.472 +08:00 [INF] Project backed up to C:\wWw\code\TTT.Telegram\src.backup\TgSharp.Generator
+2021-09-10 20:26:27.475 +08:00 [INF] Upgrade step Back up project applied successfully
+2021-09-10 20:26:28.374 +08:00 [INF] Initializing upgrade step Convert project file to SDK style
+2021-09-10 20:26:29.387 +08:00 [INF] Applying upgrade step Convert project file to SDK style
+2021-09-10 20:26:29.400 +08:00 [INF] Converting project file format with try-convert, version 0.9.232202
+2021-09-10 20:26:30.156 +08:00 [INF] [dotnet] C:\wWw\code\TTT.Telegram\src\TgSharp.Generator\TgSharp.Generator.csproj contains an App.config file. App.config is replaced by appsettings.json in .NET Core. You will need to delete App.config and migrate to appsettings.json if it's applicable to your project.
+2021-09-10 20:26:33.071 +08:00 [INF] [dotnet] Conversion complete!
+2021-09-10 20:26:34.041 +08:00 [INF] Project file converted successfully! The project may require additional changes to build successfully against the new .NET target.
+2021-09-10 20:26:36.927 +08:00 [INF] Upgrade step Convert project file to SDK style applied successfully
+2021-09-10 20:26:38.184 +08:00 [INF] Initializing upgrade step Clean up NuGet package references
+2021-09-10 20:26:42.439 +08:00 [INF] Reference to .NET Upgrade Assistant analyzer package (Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, version 0.3.242703) needs added
+2021-09-10 20:26:42.459 +08:00 [INF] Packages to be added: Operation { Item = Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.3.242703, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+2021-09-10 20:26:43.538 +08:00 [INF] Applying upgrade step Clean up NuGet package references
+2021-09-10 20:26:43.552 +08:00 [INF] Adding package reference: Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.3.242703
+2021-09-10 20:26:47.570 +08:00 [INF] Upgrade step Clean up NuGet package references applied successfully
+2021-09-10 20:26:48.702 +08:00 [INF] Initializing upgrade step Update TFM
+2021-09-10 20:26:48.709 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:26:48.729 +08:00 [INF] TFM needs updated to net5.0
+2021-09-10 20:26:50.008 +08:00 [INF] Applying upgrade step Update TFM
+2021-09-10 20:26:50.018 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:26:55.348 +08:00 [INF] Updated TFM to net5.0
+2021-09-10 20:26:55.353 +08:00 [INF] Upgrade step Update TFM applied successfully
+2021-09-10 20:26:57.845 +08:00 [INF] Initializing upgrade step Update NuGet Packages
+2021-09-10 20:27:00.809 +08:00 [INF] No package updates needed
+2021-09-10 20:27:00.823 +08:00 [INF] Initializing upgrade step Add template files
+2021-09-10 20:27:00.856 +08:00 [INF] 0 expected template items needed
+2021-09-10 20:27:00.861 +08:00 [INF] Initializing upgrade step Upgrade app config files
+2021-09-10 20:27:00.897 +08:00 [INF] Found 0 app settings for upgrade: 
+2021-09-10 20:27:00.905 +08:00 [INF] Found 0 connection strings for upgrade: 
+2021-09-10 20:27:00.920 +08:00 [INF] Initializing upgrade step Update source code
+2021-09-10 20:27:00.930 +08:00 [INF] Running analyzers on TgSharp.Generator
+2021-09-10 20:27:03.963 +08:00 [INF] Identified 0 diagnostics in project TgSharp.Generator
+2021-09-10 20:27:03.996 +08:00 [INF] Initializing upgrade step Move to next project
+2021-09-10 20:27:05.460 +08:00 [INF] Applying upgrade step Move to next project
+2021-09-10 20:27:05.470 +08:00 [INF] Upgrade step Move to next project applied successfully
+2021-09-10 20:27:07.301 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:27:07.322 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:27:07.336 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:27:07.343 +08:00 [INF] Initializing upgrade step Select project to upgrade
+2021-09-10 20:27:07.350 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:27:07.356 +08:00 [INF] No projects need upgraded for selected entrypoint
+2021-09-10 20:27:07.363 +08:00 [INF] Initializing upgrade step Finalize upgrade
+2021-09-10 20:27:07.377 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:27:10.193 +08:00 [INF] Applying upgrade step Finalize upgrade
+2021-09-10 20:27:10.198 +08:00 [INF] Upgrade step Finalize upgrade applied successfully
+2021-09-10 20:27:11.513 +08:00 [INF] Upgrade has completed. Please review any changes.
+2021-09-10 20:27:15.317 +08:00 [INF] Loaded 5 extensions
+2021-09-10 20:27:16.605 +08:00 [INF] MSBuild registered from C:\Program Files\dotnet\sdk\5.0.400\
+2021-09-10 20:27:17.206 +08:00 [INF] Found Visual Studio v16.11.31605.320 [C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise]
+2021-09-10 20:27:17.215 +08:00 [INF] Found Visual Studio v15.9.28307.1622 [C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools]
+2021-09-10 20:27:21.671 +08:00 [INF] Initializing upgrade step Select an entrypoint
+2021-09-10 20:27:21.740 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:27:24.451 +08:00 [INF] Applying upgrade step Select an entrypoint
+2021-09-10 20:27:31.094 +08:00 [INF] Upgrade step Select an entrypoint applied successfully
+2021-09-10 20:27:32.757 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:27:32.770 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:27:32.784 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:27:32.789 +08:00 [INF] Initializing upgrade step Select project to upgrade
+2021-09-10 20:27:32.872 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:27:36.311 +08:00 [INF] Applying upgrade step Select project to upgrade
+2021-09-10 20:27:48.080 +08:00 [INF] Upgrade step Select project to upgrade applied successfully
+2021-09-10 20:27:49.483 +08:00 [INF] Initializing upgrade step Back up project
+2021-09-10 20:27:52.582 +08:00 [INF] Applying upgrade step Back up project
+2021-09-10 20:27:54.082 +08:00 [INF] Backing up C:\wWw\code\TTT.Telegram\src\TgSharp.Tests to C:\wWw\code\TTT.Telegram\src.backup\TgSharp.Tests
+2021-09-10 20:27:54.151 +08:00 [INF] Project backed up to C:\wWw\code\TTT.Telegram\src.backup\TgSharp.Tests
+2021-09-10 20:27:54.155 +08:00 [INF] Upgrade step Back up project applied successfully
+2021-09-10 20:27:55.239 +08:00 [INF] Initializing upgrade step Convert project file to SDK style
+2021-09-10 20:27:57.150 +08:00 [INF] Applying upgrade step Convert project file to SDK style
+2021-09-10 20:27:57.162 +08:00 [INF] Converting project file format with try-convert, version 0.9.232202
+2021-09-10 20:27:59.310 +08:00 [INF] [dotnet] Conversion complete!
+2021-09-10 20:28:00.436 +08:00 [INF] Project file converted successfully! The project may require additional changes to build successfully against the new .NET target.
+2021-09-10 20:28:03.633 +08:00 [INF] Upgrade step Convert project file to SDK style applied successfully
+2021-09-10 20:28:04.929 +08:00 [INF] Initializing upgrade step Clean up NuGet package references
+2021-09-10 20:28:08.197 +08:00 [INF] Marking assembly reference System.Configuration for removal based on package mapping configuration System.Configuration
+2021-09-10 20:28:08.209 +08:00 [INF] Adding package System.Configuration.ConfigurationManager based on package mapping configuration System.Configuration
+2021-09-10 20:28:09.612 +08:00 [WRN] No version of System.Configuration.ConfigurationManager found that supports ["net46"]; leaving unchanged
+2021-09-10 20:28:10.478 +08:00 [INF] Reference to .NET Upgrade Assistant analyzer package (Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, version 0.3.242703) needs added
+2021-09-10 20:28:10.493 +08:00 [INF] References to be removed: Operation { Item = System.Configuration, OperationDetails = OperationDetails { Risk = Medium, Details = System.Collections.Generic.List`1[System.String] } }
+2021-09-10 20:28:10.499 +08:00 [INF] Packages to be added: Operation { Item = System.Configuration.ConfigurationManager, Version=5.0.0, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+Operation { Item = Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.3.242703, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+2021-09-10 20:28:13.060 +08:00 [INF] Applying upgrade step Clean up NuGet package references
+2021-09-10 20:28:13.072 +08:00 [INF] Removing outdated assembly reference: System.Configuration
+2021-09-10 20:28:13.082 +08:00 [INF] Adding package reference: System.Configuration.ConfigurationManager, Version=5.0.0
+2021-09-10 20:28:13.092 +08:00 [INF] Adding package reference: Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.3.242703
+2021-09-10 20:28:18.546 +08:00 [WRN] No version of System.Configuration.ConfigurationManager found that supports ["net46"]; leaving unchanged
+2021-09-10 20:28:18.558 +08:00 [INF] Upgrade step Clean up NuGet package references applied successfully
+2021-09-10 20:28:19.704 +08:00 [INF] Initializing upgrade step Update TFM
+2021-09-10 20:28:19.979 +08:00 [INF] TFM needs updated to netstandard2.0
+2021-09-10 20:28:22.213 +08:00 [INF] Applying upgrade step Update TFM
+2021-09-10 20:28:26.782 +08:00 [INF] Updated TFM to netstandard2.0
+2021-09-10 20:28:26.787 +08:00 [INF] Upgrade step Update TFM applied successfully
+2021-09-10 20:28:27.850 +08:00 [INF] Initializing upgrade step Update NuGet Packages
+2021-09-10 20:28:31.066 +08:00 [INF] No package updates needed
+2021-09-10 20:28:31.072 +08:00 [INF] Initializing upgrade step Add template files
+2021-09-10 20:28:31.088 +08:00 [INF] 0 expected template items needed
+2021-09-10 20:28:31.095 +08:00 [INF] Initializing upgrade step Upgrade app config files
+2021-09-10 20:28:31.123 +08:00 [INF] Found 10 app settings for upgrade: ApiHash, ApiId, NumberToAuthenticate, CodeToAuthenticate, NumberToSendMessage, UserNameToSendMessage, PasswordToAuthenticate, NotRegisteredNumberToSignUp, NumberToGetUserFull, NumberToAddToChat
+2021-09-10 20:28:31.130 +08:00 [INF] Found 0 connection strings for upgrade: 
+2021-09-10 20:28:32.534 +08:00 [INF] Applying upgrade step Convert Application Settings
+2021-09-10 20:28:33.745 +08:00 [INF] Upgrade step Convert Application Settings applied successfully
+2021-09-10 20:28:33.749 +08:00 [INF] Applying upgrade step Upgrade app config files
+2021-09-10 20:28:33.755 +08:00 [INF] Upgrade step Upgrade app config files applied successfully
+2021-09-10 20:28:35.349 +08:00 [INF] Initializing upgrade step Update source code
+2021-09-10 20:28:35.360 +08:00 [INF] Running analyzers on TgSharp.Tests
+2021-09-10 20:28:39.558 +08:00 [INF] Identified 0 diagnostics in project TgSharp.Tests
+2021-09-10 20:28:39.577 +08:00 [INF] Initializing upgrade step Move to next project
+2021-09-10 20:28:40.803 +08:00 [INF] Applying upgrade step Move to next project
+2021-09-10 20:28:40.812 +08:00 [INF] Upgrade step Move to next project applied successfully
+2021-09-10 20:28:42.153 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:28:42.171 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:28:42.187 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:28:42.195 +08:00 [INF] Initializing upgrade step Select project to upgrade
+2021-09-10 20:28:42.207 +08:00 [INF] No projects need upgraded for selected entrypoint
+2021-09-10 20:28:42.213 +08:00 [INF] Initializing upgrade step Finalize upgrade
+2021-09-10 20:28:42.235 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:28:43.828 +08:00 [INF] Applying upgrade step Finalize upgrade
+2021-09-10 20:28:43.835 +08:00 [INF] Upgrade step Finalize upgrade applied successfully
+2021-09-10 20:28:44.954 +08:00 [INF] Upgrade has completed. Please review any changes.
+2021-09-10 20:28:48.174 +08:00 [INF] Loaded 5 extensions
+2021-09-10 20:28:49.426 +08:00 [INF] MSBuild registered from C:\Program Files\dotnet\sdk\5.0.400\
+2021-09-10 20:28:50.036 +08:00 [INF] Found Visual Studio v16.11.31605.320 [C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise]
+2021-09-10 20:28:50.045 +08:00 [INF] Found Visual Studio v15.9.28307.1622 [C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools]
+2021-09-10 20:28:54.704 +08:00 [INF] Initializing upgrade step Select an entrypoint
+2021-09-10 20:28:54.771 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:29:03.623 +08:00 [INF] Applying upgrade step Select an entrypoint
+2021-09-10 20:29:08.553 +08:00 [INF] Upgrade step Select an entrypoint applied successfully
+2021-09-10 20:29:10.347 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:29:10.434 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:29:10.450 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:29:10.460 +08:00 [INF] Initializing upgrade step Select project to upgrade
+2021-09-10 20:29:10.533 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:29:13.633 +08:00 [INF] Applying upgrade step Select project to upgrade
+2021-09-10 20:29:15.283 +08:00 [INF] Upgrade step Select project to upgrade applied successfully
+2021-09-10 20:29:16.390 +08:00 [INF] Initializing upgrade step Back up project
+2021-09-10 20:29:17.978 +08:00 [INF] Applying upgrade step Back up project
+2021-09-10 20:29:19.694 +08:00 [INF] Backing up C:\wWw\code\TTT.Telegram\src\TgSharp.Tests.NUnit to C:\wWw\code\TTT.Telegram\src.backup\TgSharp.Tests.NUnit
+2021-09-10 20:29:19.782 +08:00 [INF] Project backed up to C:\wWw\code\TTT.Telegram\src.backup\TgSharp.Tests.NUnit
+2021-09-10 20:29:19.786 +08:00 [INF] Upgrade step Back up project applied successfully
+2021-09-10 20:29:22.220 +08:00 [INF] Initializing upgrade step Convert project file to SDK style
+2021-09-10 20:29:24.378 +08:00 [INF] Applying upgrade step Convert project file to SDK style
+2021-09-10 20:29:24.386 +08:00 [INF] Converting project file format with try-convert, version 0.9.232202
+2021-09-10 20:29:26.523 +08:00 [INF] [dotnet] Conversion complete!
+2021-09-10 20:29:27.817 +08:00 [INF] Project file converted successfully! The project may require additional changes to build successfully against the new .NET target.
+2021-09-10 20:29:31.114 +08:00 [INF] Upgrade step Convert project file to SDK style applied successfully
+2021-09-10 20:29:32.314 +08:00 [INF] Initializing upgrade step Clean up NuGet package references
+2021-09-10 20:29:37.122 +08:00 [INF] Reference to .NET Upgrade Assistant analyzer package (Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, version 0.3.242703) needs added
+2021-09-10 20:29:37.143 +08:00 [INF] Packages to be added: Operation { Item = Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.3.242703, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+2021-09-10 20:29:38.410 +08:00 [INF] Applying upgrade step Clean up NuGet package references
+2021-09-10 20:29:38.424 +08:00 [INF] Adding package reference: Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.3.242703
+2021-09-10 20:29:43.138 +08:00 [INF] Upgrade step Clean up NuGet package references applied successfully
+2021-09-10 20:29:44.274 +08:00 [INF] Initializing upgrade step Update TFM
+2021-09-10 20:29:44.351 +08:00 [INF] TFM needs updated to netstandard2.0
+2021-09-10 20:29:46.362 +08:00 [INF] Applying upgrade step Update TFM
+2021-09-10 20:29:51.292 +08:00 [INF] Updated TFM to netstandard2.0
+2021-09-10 20:29:51.296 +08:00 [INF] Upgrade step Update TFM applied successfully
+2021-09-10 20:29:53.485 +08:00 [INF] Initializing upgrade step Update NuGet Packages
+2021-09-10 20:29:56.866 +08:00 [INF] No package updates needed
+2021-09-10 20:29:56.871 +08:00 [INF] Initializing upgrade step Add template files
+2021-09-10 20:29:56.889 +08:00 [INF] 0 expected template items needed
+2021-09-10 20:29:56.899 +08:00 [INF] Initializing upgrade step Update source code
+2021-09-10 20:29:56.910 +08:00 [INF] Running analyzers on TgSharp.Tests.NUnit
+2021-09-10 20:30:00.654 +08:00 [INF] Identified 0 diagnostics in project TgSharp.Tests.NUnit
+2021-09-10 20:30:00.674 +08:00 [INF] Initializing upgrade step Move to next project
+2021-09-10 20:30:01.833 +08:00 [INF] Applying upgrade step Move to next project
+2021-09-10 20:30:01.843 +08:00 [INF] Upgrade step Move to next project applied successfully
+2021-09-10 20:30:04.176 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:30:04.253 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:30:04.270 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:30:04.279 +08:00 [INF] Initializing upgrade step Finalize upgrade
+2021-09-10 20:30:04.306 +08:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-09-10 20:30:06.338 +08:00 [INF] Applying upgrade step Finalize upgrade
+2021-09-10 20:30:06.343 +08:00 [INF] Upgrade step Finalize upgrade applied successfully
+2021-09-10 20:30:07.673 +08:00 [INF] Upgrade has completed. Please review any changes.
